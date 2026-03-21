@@ -1,0 +1,67 @@
+{%- comment -%}
+  Renders a product card.
+  Usage: {% render 'product-card', product: product %}
+{%- endcomment -%}
+
+<div class="product-card">
+  {%- comment -%} Image area {%- endcomment -%}
+  <a href="{{ product.url }}" class="product-card__image">
+    {%- if product.featured_image -%}
+      <img
+        src="{{ product.featured_image | image_url: width: 600 }}"
+        alt="{{ product.featured_image.alt | default: product.title | escape }}"
+        width="600"
+        height="600"
+        loading="lazy"
+      >
+    {%- else -%}
+      <div class="placeholder-circle green-gradient"></div>
+    {%- endif -%}
+
+    <div class="product-card__badge">
+      {% render 'badge', product: product %}
+    </div>
+  </a>
+
+  {%- comment -%} Product info {%- endcomment -%}
+  <div class="product-card__info">
+    <p class="product-card__category">{{ product.type }}</p>
+
+    <h3 class="product-card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    {%- if product.metafields.custom.short_description -%}
+      <p class="product-card__desc">{{ product.metafields.custom.short_description }}</p>
+    {%- elsif product.description != blank -%}
+      <p class="product-card__desc">{{ product.description | strip_html | truncate: 80 }}</p>
+    {%- endif -%}
+
+    {%- comment -%} Star rating {%- endcomment -%}
+    {%- assign rating = product.metafields.custom.rating.value | default: 0 -%}
+    {%- assign review_count = product.metafields.custom.review_count.value | default: 0 -%}
+    {%- if rating > 0 -%}
+      <div class="mb-3">
+        {% render 'star-rating', rating: rating, count: review_count %}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Price + Add to cart {%- endcomment -%}
+    <div class="product-card__price-row">
+      <div>
+        <span class="product-card__price">{{ product.price | money_without_trailing_zeros }}</span>
+        {%- if product.compare_at_price_max > product.price_min -%}
+          <span class="product-card__compare-price">{{ product.compare_at_price_max | money_without_trailing_zeros }}</span>
+        {%- endif -%}
+      </div>
+
+      <form method="post" action="/cart/add" class="product-card__add-form">
+        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="btn btn-primary btn-icon-sm" aria-label="{{ 'product.add_to_cart' | t }}">
+          {% render 'icon', icon: 'shopping-bag', size: 16 %}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

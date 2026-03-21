@@ -1,0 +1,70 @@
+{
+  "general": {
+    "store_name": "VitalPlus",
+    "currency": "COP",
+    "country": "Colombia"
+  },
+  "header": {
+    "logo_alt": "VitalPlus - Suplementos de salud premium",
+    "menu_items": {
+      "inicio": "Inicio",
+      "suplementos": "Suplementos",
+      "nosotros": "Sobre Nosotros",
+      "blog": "Blog",
+      "contacto": "Contacto"
+    },
+    "search_placeholder": "Buscar suplementos...",
+    "cart": "Carrito"
+  },
+  "product": {
+    "add_to_cart": "Agregar al carrito",
+    "buy_now": "Comprar ahora",
+    "quantity": "Cantidad",
+    "presentation": "Presentación",
+    "benefits": "Beneficios",
+    "ingredients": "Ingredientes",
+    "how_to_use": "Cómo usar",
+    "warnings": "Advertencias",
+    "faq": "Preguntas frecuentes",
+    "related_products": "Productos relacionados",
+    "reviews": "reseñas"
+  },
+  "collection": {
+    "all_products": "Todos los suplementos",
+    "sort_by": "Ordenar por",
+    "popularity": "Popularidad",
+    "newest": "Más nuevos",
+    "price_asc": "Precio: menor a mayor",
+    "price_desc": "Precio: mayor a menor",
+    "format": "Formato",
+    "all_formats": "Todos los formatos"
+  },
+  "cart": {
+    "title": "Tu carrito",
+    "empty": "Tu carrito está vacío",
+    "subtotal": "Subtotal",
+    "shipping": "Envío",
+    "free": "Gratis",
+    "calculated": "Calculado al finalizar",
+    "total": "Total",
+    "checkout": "Finalizar compra",
+    "free_shipping_remaining": "¡Te faltan {{amount}} para envío gratis!",
+    "clear": "Vaciar carrito"
+  },
+  "footer": {
+    "disclaimer": "Este producto es un suplemento alimenticio. No reemplaza una alimentación equilibrada ni un estilo de vida saludable. Consulte a un profesional de la salud antes de consumir. Resultados individuales pueden variar.",
+    "rights": "Todos los derechos reservados. Colombia."
+  },
+  "badges": {
+    "new": "Nuevo",
+    "top": "Top",
+    "discount": "Oferta"
+  },
+  "newsletter": {
+    "heading": "Recibe ofertas exclusivas",
+    "subheading": "Suscríbete y obtén un 10% de descuento en tu primera compra.",
+    "placeholder": "tu@correo.com",
+    "subscribe": "Suscribirme",
+    "success": "¡Gracias por suscribirte!"
+  }
+}

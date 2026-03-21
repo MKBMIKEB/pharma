@@ -1,0 +1,108 @@
+<section class="section-padding">
+  <div class="container-narrow">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="section-heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      {%- for block in section.blocks -%}
+        <div class="value-prop" {{ block.shopify_attributes }}>
+          <div class="value-prop__icon">
+            {% render 'icon', icon: block.settings.icon %}
+          </div>
+          <h3 class="value-prop__title">{{ block.settings.title }}</h3>
+          <p class="value-prop__desc">{{ block.settings.description }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Propuestas de Valor",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título de la sección"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "prop",
+      "name": "Propuesta",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "options": [
+            { "value": "shield-check", "label": "Escudo (Calidad)" },
+            { "value": "truck", "label": "Camión (Envío)" },
+            { "value": "headphones", "label": "Soporte" },
+            { "value": "leaf", "label": "Hoja (Natural)" },
+            { "value": "award", "label": "Medalla" },
+            { "value": "heart", "label": "Corazón" },
+            { "value": "shield", "label": "Escudo" },
+            { "value": "zap", "label": "Rayo" }
+          ],
+          "default": "shield-check"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Calidad certificada"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Descripción",
+          "default": "Ingredientes de grado farmacéutico con certificación de calidad."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Propuestas de Valor",
+      "blocks": [
+        {
+          "type": "prop",
+          "settings": {
+            "icon": "shield-check",
+            "title": "Calidad certificada",
+            "description": "Ingredientes de grado farmacéutico con certificación de calidad."
+          }
+        },
+        {
+          "type": "prop",
+          "settings": {
+            "icon": "truck",
+            "title": "Envío rápido",
+            "description": "Entrega en 2-5 días hábiles a todo Colombia."
+          }
+        },
+        {
+          "type": "prop",
+          "settings": {
+            "icon": "headphones",
+            "title": "Soporte experto",
+            "description": "Atención personalizada por WhatsApp y correo."
+          }
+        },
+        {
+          "type": "prop",
+          "settings": {
+            "icon": "leaf",
+            "title": "Ingredientes naturales",
+            "description": "Fórmulas con ingredientes de origen natural."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

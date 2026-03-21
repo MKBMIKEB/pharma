@@ -1,0 +1,1 @@
+{ "name": "FAQ", "sections": { "header": { "type": "header" }, "faq-accordion": { "type": "faq-accordion", "settings": { "heading": "Preguntas Frecuentes" } }, "footer": { "type": "footer" } }, "order": ["header", "faq-accordion", "footer"] }

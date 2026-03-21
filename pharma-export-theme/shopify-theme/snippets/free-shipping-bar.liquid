@@ -1,0 +1,26 @@
+{%- comment -%}
+  Renders free shipping progress bar.
+  Usage: {% render 'free-shipping-bar' %}
+  Requires settings.free_shipping_threshold to be set.
+{%- endcomment -%}
+
+{%- if settings.show_free_shipping_bar -%}
+  {%- assign threshold = settings.free_shipping_threshold | times: 100 -%}
+  {%- assign cart_total = cart.total_price -%}
+  {%- assign remaining = threshold | minus: cart_total -%}
+  {%- assign progress = cart_total | times: 100 | divided_by: threshold -%}
+  {%- if progress > 100 -%}{%- assign progress = 100 -%}{%- endif -%}
+
+  <div class="free-shipping-bar" data-threshold="{{ threshold }}">
+    <div class="free-shipping-bar__message">
+      {%- if remaining > 0 -%}
+        {{ 'cart.free_shipping_remaining' | t: amount: remaining | money_without_trailing_zeros }}
+      {%- else -%}
+        {{ 'cart.free_shipping_achieved' | t }}
+      {%- endif -%}
+    </div>
+    <div class="free-shipping-bar__progress">
+      <div class="free-shipping-bar__fill" style="width: {{ progress }}%"></div>
+    </div>
+  </div>
+{%- endif -%}

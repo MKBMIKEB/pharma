@@ -1,0 +1,19 @@
+{%- if settings.whatsapp_enabled -%}
+  {%- assign wa_message = settings.whatsapp_message | url_encode -%}
+  <a
+    href="https://wa.me/{{ settings.whatsapp_number }}?text={{ wa_message }}"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="whatsapp-button"
+    aria-label="{{ 'contact.whatsapp_cta' | t }}"
+  >
+    {% render 'icon', icon: 'whatsapp', size: 24 %}
+  </a>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Botón WhatsApp",
+  "settings": []
+}
+{% endschema %}

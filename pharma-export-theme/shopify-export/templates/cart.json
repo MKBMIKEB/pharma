@@ -1,0 +1,1 @@
+{ "name": "Cart", "sections": { "header": { "type": "header" }, "cart-main": { "type": "cart-main", "settings": { "free_shipping_threshold": 150000, "currency": "COP", "show_free_shipping_bar": true } }, "footer": { "type": "footer" } }, "order": ["header", "cart-main", "footer"] }

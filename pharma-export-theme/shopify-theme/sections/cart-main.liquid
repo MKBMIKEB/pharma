@@ -1,0 +1,240 @@
+{%- comment -%}
+  VitalPlus - Cart Main Section
+  Features: AJAX updates, free shipping bar, order summary,
+  cart note, continue shopping, discount display.
+{%- endcomment -%}
+
+<section class="section-padding" data-cart-section>
+  <div class="container-narrow">
+    {% render 'breadcrumbs' %}
+
+    {%- if cart.item_count == 0 -%}
+      {%- comment -%} Empty Cart {%- endcomment -%}
+      <div class="empty-state">
+        <div class="empty-state__icon">
+          {% render 'icon', icon: 'shopping-bag', size: 48 %}
+        </div>
+        <p class="empty-state__title">{{ 'cart.empty' | t }}</p>
+        <p class="empty-state__text">{{ 'cart.empty_text' | t }}</p>
+        <a href="/collections/all" class="btn btn-primary btn-lg">{{ 'cart.view_products' | t }}</a>
+      </div>
+
+    {%- else -%}
+      {%- comment -%} Cart Header {%- endcomment -%}
+      <div class="cart-header">
+        <h1 class="font-display text-3xl font-bold">{{ 'cart.title' | t }}</h1>
+        <a href="/collections/all" class="cart-continue-link">
+          {% render 'icon', icon: 'arrow-left', size: 14 %}
+          {{ 'cart.continue_shopping' | t }}
+        </a>
+      </div>
+
+      <div class="cart-layout">
+        {%- comment -%} Cart Items (left side) {%- endcomment -%}
+        <div class="cart-items-col">
+          {%- comment -%} Free Shipping Bar {%- endcomment -%}
+          {% render 'free-shipping-bar' %}
+
+          {%- comment -%} Table header (desktop) {%- endcomment -%}
+          <div class="cart-table-header">
+            <span class="cart-table-header__product">{{ 'cart.product' | t }}</span>
+            <span class="cart-table-header__qty">{{ 'product.quantity' | t }}</span>
+            <span class="cart-table-header__total">{{ 'cart.total' | t }}</span>
+            <span class="cart-table-header__action"></span>
+          </div>
+
+          {%- comment -%} Line Items {%- endcomment -%}
+          <form action="{{ routes.cart_url }}" method="post" data-cart-form>
+            {%- for item in cart.items -%}
+              <div class="cart-item" data-cart-item data-line="{{ forloop.index }}" data-item-key="{{ item.key }}">
+                {%- comment -%} Image {%- endcomment -%}
+                <a href="{{ item.url }}" class="cart-item__image">
+                  {%- if item.image -%}
+                    <img
+                      src="{{ item.image | image_url: width: 200 }}"
+                      alt="{{ item.title | escape }}"
+                      width="80"
+                      height="80"
+                      loading="lazy"
+                    >
+                  {%- else -%}
+                    <div class="placeholder-circle green-gradient" style="width:3rem;height:3rem;opacity:0.15"></div>
+                  {%- endif -%}
+                </a>
+
+                {%- comment -%} Product Info {%- endcomment -%}
+                <div class="cart-item__info">
+                  <p class="cart-item__title">
+                    <a href="{{ item.url }}">{{ item.product.title }}</a>
+                  </p>
+                  {%- if item.variant.title != 'Default Title' -%}
+                    <p class="cart-item__variant">{{ item.variant.title }}</p>
+                  {%- endif -%}
+
+                  <p class="cart-item__unit-price text-xs text-muted">
+                    {{ item.final_price | money_without_trailing_zeros }} c/u
+                  </p>
+
+                  {%- comment -%} Discounts {%- endcomment -%}
+                  {%- if item.line_level_discount_allocations.size > 0 -%}
+                    {%- for discount in item.line_level_discount_allocations -%}
+                      <span class="cart-item__discount">
+                        {% render 'icon', icon: 'zap', size: 12 %}
+                        {{ discount.discount_application.title }} (-{{ discount.amount | money_without_trailing_zeros }})
+                      </span>
+                    {%- endfor -%}
+                  {%- endif -%}
+                </div>
+
+                {%- comment -%} Quantity Controls {%- endcomment -%}
+                <div class="cart-item__qty">
+                  <div class="quantity-selector" data-line-quantity>
+                    <button
+                      type="button"
+                      class="quantity-selector__btn"
+                      data-cart-quantity-minus="{{ forloop.index }}"
+                      aria-label="{{ 'cart.decrease' | t }}"
+                    >
+                      {% render 'icon', icon: 'minus', size: 14 %}
+                    </button>
+                    <input
+                      type="number"
+                      name="updates[]"
+                      value="{{ item.quantity }}"
+                      min="0"
+                      class="quantity-selector__value"
+                      data-quantity-value
+                      aria-label="{{ 'product.quantity' | t }}"
+                      readonly
+                    >
+                    <button
+                      type="button"
+                      class="quantity-selector__btn"
+                      data-cart-quantity-plus="{{ forloop.index }}"
+                      aria-label="{{ 'cart.increase' | t }}"
+                    >
+                      {% render 'icon', icon: 'plus', size: 14 %}
+                    </button>
+                  </div>
+                </div>
+
+                {%- comment -%} Line Price {%- endcomment -%}
+                <div class="cart-item__price" data-line-price>
+                  {{ item.final_line_price | money_without_trailing_zeros }}
+                  {%- if item.original_line_price != item.final_line_price -%}
+                    <s class="cart-item__original-price">{{ item.original_line_price | money_without_trailing_zeros }}</s>
+                  {%- endif -%}
+                </div>
+
+                {%- comment -%} Remove {%- endcomment -%}
+                <button
+                  type="button"
+                  class="cart-item__remove"
+                  data-cart-remove="{{ forloop.index }}"
+                  aria-label="{{ 'cart.remove' | t }}"
+                >
+                  {% render 'icon', icon: 'trash', size: 16 %}
+                </button>
+
+                {%- comment -%} Loading overlay per item {%- endcomment -%}
+                <div class="cart-item__loading" data-item-loading>
+                  <div class="cart-item__spinner"></div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </form>
+
+          {%- comment -%} Cart Note {%- endcomment -%}
+          {%- if section.settings.show_cart_note -%}
+            <div class="cart-note mt-6">
+              <label for="cart-note" class="text-sm font-semibold mb-2 block">
+                {{ 'cart.note_label' | t }}
+              </label>
+              <textarea
+                id="cart-note"
+                class="input"
+                name="note"
+                rows="3"
+                placeholder="{{ 'cart.note_placeholder' | t }}"
+                data-cart-note
+              >{{ cart.note }}</textarea>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Order Summary (right side) {%- endcomment -%}
+        <div class="cart-summary-col">
+          <div class="order-summary" data-order-summary>
+            <h2 class="order-summary__heading">{{ 'cart.order_summary' | t }}</h2>
+
+            {%- comment -%} Cart-level discounts {%- endcomment -%}
+            {%- if cart.cart_level_discount_applications.size > 0 -%}
+              {%- for discount in cart.cart_level_discount_applications -%}
+                <div class="order-summary__row order-summary__discount">
+                  <span>
+                    {% render 'icon', icon: 'zap', size: 14 %}
+                    {{ discount.title }}
+                  </span>
+                  <span>-{{ discount.total_allocated_amount | money_without_trailing_zeros }}</span>
+                </div>
+              {%- endfor -%}
+            {%- endif -%}
+
+            <div class="order-summary__row">
+              <span>{{ 'cart.subtotal' | t }} ({{ cart.item_count }} {{ 'cart.items' | t }})</span>
+              <span data-cart-subtotal>{{ cart.total_price | money_without_trailing_zeros }}</span>
+            </div>
+
+            <div class="order-summary__row">
+              <span>{{ 'cart.shipping' | t }}</span>
+              <span>
+                {%- assign threshold_cents = settings.free_shipping_threshold | times: 100 -%}
+                {%- if cart.total_price >= threshold_cents -%}
+                  <span class="text-primary font-semibold">{{ 'cart.free' | t }}</span>
+                {%- else -%}
+                  {{ 'cart.calculated' | t }}
+                {%- endif -%}
+              </span>
+            </div>
+
+            <div class="order-summary__row order-summary__total">
+              <span>{{ 'cart.total' | t }}</span>
+              <span data-cart-total>{{ cart.total_price | money_without_trailing_zeros }}</span>
+            </div>
+
+            <a href="/checkout" class="btn btn-accent btn-lg w-full mt-4">
+              {% render 'icon', icon: 'shield-check', size: 18 %}
+              {{ 'cart.checkout' | t }}
+            </a>
+
+            <p class="order-summary__secure">
+              {% render 'icon', icon: 'shield', size: 14 %}
+              {{ 'cart.secure_checkout' | t }}
+            </p>
+
+            {%- comment -%} Continue Shopping {%- endcomment -%}
+            <a href="/collections/all" class="btn btn-ghost w-full mt-2 text-sm">
+              {{ 'cart.continue_shopping' | t }}
+            </a>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{{ 'cart.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "Carrito de Compras",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_cart_note",
+      "label": "Mostrar campo de notas",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

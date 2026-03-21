@@ -1,0 +1,1 @@
+{ "name": "Contact", "sections": { "header": { "type": "header" }, "contact-form": { "type": "contact-form", "settings": { "heading": "Contacto", "whatsapp": "+573001234567" } }, "footer": { "type": "footer" } }, "order": ["header", "contact-form", "footer"] }

@@ -1,0 +1,73 @@
+<section class="section-padding" style="background-color: var(--color-secondary-bg);">
+  <div class="container-narrow">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="section-heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="section-subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- assign featured_collection = collections[section.settings.collection] -%}
+    {%- assign product_limit = section.settings.product_count -%}
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 gap-6">
+      {%- for product in featured_collection.products limit: product_limit -%}
+        {% render 'product-card', product: product %}
+      {%- else -%}
+        {%- for i in (1..product_limit) -%}
+          <div class="product-card" style="min-height: 300px;">
+            <div class="product-card__image">
+              <div class="placeholder-circle green-gradient"></div>
+            </div>
+            <div class="product-card__info">
+              <p class="product-card__category">Categoría</p>
+              <h3 class="product-card__title">Producto de ejemplo {{ i }}</h3>
+              <div class="product-card__price-row">
+                <span class="product-card__price">$0</span>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Los Más Vendidos",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Los Más Vendidos"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo",
+      "default": "Nuestros suplementos más populares"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección a mostrar"
+    },
+    {
+      "type": "range",
+      "id": "product_count",
+      "label": "Número de productos",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Los Más Vendidos"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,102 @@
+{
+  "sections": {
+    "announcement-bar": {
+      "name": "Barra de anuncio",
+      "settings": {
+        "text": { "label": "Texto del anuncio" },
+        "icon": { "label": "Icono" },
+        "bg_color": { "label": "Color de fondo" },
+        "text_color": { "label": "Color de texto" }
+      }
+    },
+    "header": {
+      "name": "Encabezado",
+      "settings": {
+        "logo": { "label": "Logo" },
+        "menu": { "label": "Menú de navegación" },
+        "show_search": { "label": "Mostrar búsqueda" },
+        "show_cart": { "label": "Mostrar carrito" },
+        "sticky": { "label": "Encabezado fijo" }
+      }
+    },
+    "footer": {
+      "name": "Pie de página",
+      "settings": {
+        "brand_description": { "label": "Descripción de la marca" }
+      }
+    },
+    "hero-banner": {
+      "name": "Banner Principal",
+      "settings": {
+        "background_image": { "label": "Imagen de fondo" },
+        "subtitle": { "label": "Subtítulo" },
+        "heading": { "label": "Título" },
+        "heading_accent": { "label": "Palabra destacada (dorado)" },
+        "description": { "label": "Descripción" },
+        "cta1_url": { "label": "URL botón primario" },
+        "cta1_text": { "label": "Texto botón primario" },
+        "cta2_url": { "label": "URL botón secundario" },
+        "cta2_text": { "label": "Texto botón secundario" },
+        "overlay_opacity": { "label": "Opacidad del overlay" }
+      }
+    },
+    "featured-categories": {
+      "name": "Categorías Destacadas",
+      "settings": {
+        "heading": { "label": "Título" },
+        "subheading": { "label": "Subtítulo" }
+      }
+    },
+    "best-sellers": {
+      "name": "Los Más Vendidos",
+      "settings": {
+        "heading": { "label": "Título" },
+        "subheading": { "label": "Subtítulo" },
+        "collection": { "label": "Colección" },
+        "product_count": { "label": "Número de productos" }
+      }
+    },
+    "value-props": {
+      "name": "Propuestas de Valor"
+    },
+    "testimonials": {
+      "name": "Testimonios"
+    },
+    "newsletter": {
+      "name": "Newsletter"
+    },
+    "product-main": {
+      "name": "Producto Principal"
+    },
+    "product-tabs": {
+      "name": "Información del Producto"
+    },
+    "product-recommendations": {
+      "name": "Productos Relacionados"
+    },
+    "collection-main": {
+      "name": "Colección"
+    },
+    "cart-main": {
+      "name": "Carrito de Compras"
+    },
+    "about-content": {
+      "name": "Sobre Nosotros"
+    },
+    "contact-form": {
+      "name": "Formulario de Contacto"
+    },
+    "faq-accordion": {
+      "name": "Preguntas Frecuentes"
+    },
+    "blog-posts": {
+      "name": "Artículos del Blog"
+    },
+    "search-main": {
+      "name": "Resultados de Búsqueda"
+    },
+    "whatsapp-button": {
+      "name": "Botón de WhatsApp"
+    }
+  }
+}

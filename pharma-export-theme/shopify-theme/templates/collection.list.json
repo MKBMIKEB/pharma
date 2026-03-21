@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "collection_list": {
+      "type": "featured-categories",
+      "settings": {
+        "heading": "Nuestras Colecciones",
+        "subheading": "Explora todas nuestras categorías de suplementos"
+      }
+    }
+  },
+  "order": ["collection_list"]
+}

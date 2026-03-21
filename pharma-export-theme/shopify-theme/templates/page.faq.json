@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "faq": {
+      "type": "faq-accordion",
+      "settings": {
+        "heading": "Preguntas Frecuentes",
+        "subheading": "Encuentra respuestas a las dudas más comunes."
+      }
+    }
+  },
+  "order": ["faq"]
+}

@@ -1,0 +1,1 @@
+{ "name": "Article", "sections": { "header": { "type": "header" }, "article-main": { "type": "article-main", "settings": { "show_date": true, "show_category": true } }, "footer": { "type": "footer" } }, "order": ["header", "article-main", "footer"] }

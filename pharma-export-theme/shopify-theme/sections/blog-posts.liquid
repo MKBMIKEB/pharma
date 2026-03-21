@@ -1,0 +1,179 @@
+{%- comment -%}
+  VitalPlus - Blog Posts Section
+  Features: breadcrumbs, featured article, grid, pagination, read more links.
+{%- endcomment -%}
+
+<section class="section-padding">
+  <div class="container-narrow">
+    {% render 'breadcrumbs' %}
+
+    <h1 class="font-display text-3xl font-bold text-center mb-2">{{ section.settings.heading }}</h1>
+    <p class="text-muted text-center mb-12">{{ section.settings.subheading }}</p>
+
+    {%- assign blog_handle = section.settings.blog | default: 'noticias' -%}
+    {%- assign target_blog = blogs[blog_handle] -%}
+
+    {%- if target_blog.articles_count > 0 -%}
+
+      {%- comment -%} Featured Article (first one) {%- endcomment -%}
+      {%- if section.settings.show_featured and target_blog.articles.size > 0 -%}
+        {%- assign featured = target_blog.articles.first -%}
+        <article class="blog-featured mb-10">
+          {%- if featured.image -%}
+            <a href="{{ featured.url }}" class="blog-featured__image">
+              <img
+                src="{{ featured.image | image_url: width: 1200, height: 500, crop: 'center' }}"
+                alt="{{ featured.title | escape }}"
+                width="1200"
+                height="500"
+                loading="eager"
+              >
+            </a>
+          {%- endif -%}
+          <div class="blog-featured__content">
+            <div class="blog-card__meta mb-2">
+              {%- if featured.tags.size > 0 -%}
+                <span class="blog-card__tag">{{ featured.tags.first }}</span>
+              {%- endif -%}
+              <span class="blog-card__date">{{ featured.published_at | date: "%d %b %Y" }}</span>
+            </div>
+            <h2 class="blog-featured__title">
+              <a href="{{ featured.url }}">{{ featured.title }}</a>
+            </h2>
+            <p class="blog-featured__excerpt">{{ featured.excerpt_or_content | strip_html | truncate: 240 }}</p>
+            <a href="{{ featured.url }}" class="btn btn-primary btn-sm mt-4">
+              {{ 'blog.read_more' | t }}
+            </a>
+          </div>
+        </article>
+      {%- endif -%}
+
+      {%- comment -%} Articles Grid {%- endcomment -%}
+      {%- paginate target_blog.articles by section.settings.articles_count -%}
+        {%- assign skip_featured = false -%}
+        {%- if section.settings.show_featured and paginate.current_page == 1 -%}
+          {%- assign skip_featured = true -%}
+        {%- endif -%}
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {%- for article in target_blog.articles -%}
+            {%- if skip_featured and forloop.first -%}
+              {%- continue -%}
+            {%- endif -%}
+            <article class="blog-card">
+              {%- if article.image -%}
+                <a href="{{ article.url }}" class="blog-card__image-link">
+                  <img
+                    src="{{ article.image | image_url: width: 600, height: 360, crop: 'center' }}"
+                    alt="{{ article.title | escape }}"
+                    width="600"
+                    height="360"
+                    loading="lazy"
+                    class="blog-card__img"
+                  >
+                </a>
+              {%- endif -%}
+              <div class="blog-card__content">
+                <div class="blog-card__meta">
+                  {%- if article.tags.size > 0 -%}
+                    <span class="blog-card__tag">{{ article.tags.first }}</span>
+                  {%- endif -%}
+                  <span class="blog-card__date">{{ article.published_at | date: "%d %b %Y" }}</span>
+                </div>
+                <h2 class="blog-card__title">
+                  <a href="{{ article.url }}">{{ article.title }}</a>
+                </h2>
+                <p class="blog-card__excerpt">{{ article.excerpt_or_content | strip_html | truncate: 160 }}</p>
+                <a href="{{ article.url }}" class="blog-card__read-more">
+                  {{ 'blog.read_more' | t }} &rarr;
+                </a>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%} Pagination {%- endcomment -%}
+        {%- if paginate.pages > 1 -%}
+          <nav class="pagination" aria-label="{{ 'accessibility.pagination' | t }}">
+            {%- if paginate.previous -%}
+              <a href="{{ paginate.previous.url }}" class="pagination__btn" aria-label="{{ 'accessibility.previous' | t }}">
+                {% render 'icon', icon: 'arrow-left', size: 16 %}
+              </a>
+            {%- endif -%}
+
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" class="pagination__page">{{ part.title }}</a>
+              {%- else -%}
+                {%- if part.title == '&hellip;' -%}
+                  <span class="pagination__dots">...</span>
+                {%- else -%}
+                  <span class="pagination__page current">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if paginate.next -%}
+              <a href="{{ paginate.next.url }}" class="pagination__btn" aria-label="{{ 'accessibility.next' | t }}">
+                {% render 'icon', icon: 'chevron-right', size: 16 %}
+              </a>
+            {%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- endpaginate -%}
+
+    {%- else -%}
+      <div class="empty-state">
+        <div class="empty-state__icon">
+          {% render 'icon', icon: 'mail', size: 48 %}
+        </div>
+        <p class="empty-state__title">{{ 'blog.no_articles' | t }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Artículos del Blog",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Blog"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo",
+      "default": "Artículos sobre salud, nutrición y bienestar."
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_featured",
+      "label": "Mostrar artículo destacado",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "articles_count",
+      "label": "Artículos por página",
+      "min": 3,
+      "max": 12,
+      "step": 3,
+      "default": 9
+    }
+  ],
+  "presets": [
+    {
+      "name": "Artículos del Blog"
+    }
+  ]
+}
+{% endschema %}

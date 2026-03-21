@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "article_content": {
+      "type": "article-content",
+      "settings": {
+        "show_author": true,
+        "show_share": true
+      }
+    }
+  },
+  "order": ["article_content"]
+}

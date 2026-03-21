@@ -1,0 +1,10 @@
+{
+  "name": "Product",
+  "sections": {
+    "header": { "type": "header" },
+    "product-main": { "type": "product-main", "settings": { "show_gallery_zoom": true, "show_variants": true, "show_quantity": true, "show_buy_now": true }, "blocks": { "tab-benefits": { "type": "tab", "settings": { "title": "Beneficios", "content_source": "metafield:benefits" } }, "tab-ingredients": { "type": "tab", "settings": { "title": "Ingredientes", "content_source": "metafield:ingredients" } }, "tab-howto": { "type": "tab", "settings": { "title": "Cómo usar", "content_source": "metafield:how_to_use" } }, "tab-warnings": { "type": "tab", "settings": { "title": "Advertencias", "content_source": "metafield:warnings" } }, "tab-faq": { "type": "tab", "settings": { "title": "FAQ" } } } },
+    "product-recommendations": { "type": "product-recommendations", "settings": { "heading": "Productos relacionados", "count": 4 } },
+    "footer": { "type": "footer" }
+  },
+  "order": ["header", "product-main", "product-recommendations", "footer"]
+}

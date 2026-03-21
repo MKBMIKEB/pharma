@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "contact_form": {
+      "type": "contact-form",
+      "settings": {
+        "heading": "Contacto",
+        "subheading": "¿Tienes preguntas? Estamos aquí para ayudarte."
+      },
+      "blocks": {
+        "i1": { "type": "info", "settings": { "icon": "mail", "label": "Correo", "value": "info@vitalplus.co" } },
+        "i2": { "type": "info", "settings": { "icon": "phone", "label": "Teléfono", "value": "+57 300 123 4567" } },
+        "i3": { "type": "info", "settings": { "icon": "map-pin", "label": "Ubicación", "value": "Bogotá, Colombia" } }
+      },
+      "block_order": ["i1", "i2", "i3"]
+    }
+  },
+  "order": ["contact_form"]
+}

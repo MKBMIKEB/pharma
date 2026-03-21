@@ -1,0 +1,15 @@
+{
+  "name": "VitalPlus Home",
+  "sections": {
+    "header": { "type": "header", "settings": { "logo": "vitalplus-logo.png", "menu": "main-menu", "sticky": true, "search": true, "cart": true } },
+    "announcement-bar": { "type": "announcement-bar", "settings": { "text": "Envío gratis en pedidos desde $150.000 COP", "icon": "truck" } },
+    "hero-banner": { "type": "hero-banner", "settings": { "heading": "Tu salud merece lo mejor", "subheading": "Suplementos de calidad farmacéutica con ingredientes naturales respaldados por la ciencia.", "cta_text": "Ver suplementos", "cta_url": "/collections/all", "cta2_text": "Comprar ahora", "cta2_url": "/collections/salud-masculina", "background_color": "#1B4332" } },
+    "featured-categories": { "type": "featured-collections", "settings": { "heading": "Categorías destacadas", "subheading": "Encuentra el suplemento ideal según tus necesidades." }, "blocks": { "cat-1": { "type": "collection", "settings": { "collection": "salud-masculina", "icon": "shield" } }, "cat-2": { "type": "collection", "settings": { "collection": "energia", "icon": "zap" } }, "cat-3": { "type": "collection", "settings": { "collection": "vitaminas", "icon": "pill" } }, "cat-4": { "type": "collection", "settings": { "collection": "sueno", "icon": "moon" } }, "cat-5": { "type": "collection", "settings": { "collection": "inmunidad", "icon": "heart" } } } },
+    "best-sellers": { "type": "featured-products", "settings": { "heading": "Los más vendidos", "subheading": "Los productos favoritos de nuestra comunidad.", "collection": "best-sellers", "product_count": 4 } },
+    "value-props": { "type": "value-props", "blocks": { "prop-1": { "type": "prop", "settings": { "icon": "shield-check", "title": "Calidad certificada", "text": "Ingredientes de grado farmacéutico." } }, "prop-2": { "type": "prop", "settings": { "icon": "truck", "title": "Envío rápido", "text": "2-5 días hábiles." } }, "prop-3": { "type": "prop", "settings": { "icon": "headphones", "title": "Soporte experto", "text": "WhatsApp y correo." } }, "prop-4": { "type": "prop", "settings": { "icon": "leaf", "title": "Ingredientes naturales", "text": "Respaldados por la ciencia." } } } },
+    "testimonials": { "type": "testimonials", "settings": { "heading": "Lo que dicen nuestros clientes", "disclaimer": "Los testimonios reflejan experiencias individuales. Los resultados pueden variar." } },
+    "newsletter": { "type": "newsletter", "settings": { "heading": "Recibe ofertas exclusivas", "subheading": "Suscríbete y obtén un 10% de descuento en tu primera compra." } },
+    "footer": { "type": "footer", "settings": { "disclaimer": "Este producto es un suplemento alimenticio. No reemplaza una alimentación equilibrada. Consulte a un profesional de la salud." } }
+  },
+  "order": ["header", "announcement-bar", "hero-banner", "featured-categories", "best-sellers", "value-props", "testimonials", "newsletter", "footer"]
+}

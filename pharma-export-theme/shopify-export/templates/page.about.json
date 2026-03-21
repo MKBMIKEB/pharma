@@ -1,0 +1,1 @@
+{ "name": "About", "sections": { "header": { "type": "header" }, "rich-text": { "type": "rich-text", "settings": { "heading": "Sobre VitalPlus", "content": "about-page-content" } }, "footer": { "type": "footer" } }, "order": ["header", "rich-text", "footer"] }

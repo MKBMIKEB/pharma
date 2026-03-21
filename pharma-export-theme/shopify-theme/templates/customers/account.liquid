@@ -1,0 +1,69 @@
+<div class="section-padding">
+  <div class="container-narrow" style="max-width: 56rem;">
+    {% render 'breadcrumbs' %}
+
+    {%- comment -%} Account Header {%- endcomment -%}
+    <div class="account-header">
+      <div class="account-header__info">
+        <div class="account-header__avatar">
+          {{ customer.first_name | slice: 0 }}{{ customer.last_name | slice: 0 }}
+        </div>
+        <div>
+          <h1 class="font-display text-2xl font-bold">{{ customer.first_name }} {{ customer.last_name }}</h1>
+          <p class="text-sm text-muted">{{ customer.email }}</p>
+        </div>
+      </div>
+      <a href="/account/logout" class="btn btn-ghost text-sm">{{ 'customer.logout' | t }}</a>
+    </div>
+
+    {%- comment -%} Account Stats {%- endcomment -%}
+    <div class="account-stats mb-8">
+      <div class="account-stat">
+        <span class="account-stat__number">{{ customer.orders_count }}</span>
+        <span class="account-stat__label">{{ 'customer.total_orders' | t }}</span>
+      </div>
+      <div class="account-stat">
+        <span class="account-stat__number">{{ customer.total_spent | money_without_trailing_zeros }}</span>
+        <span class="account-stat__label">{{ 'customer.total_spent' | t }}</span>
+      </div>
+    </div>
+
+    {%- comment -%} Orders {%- endcomment -%}
+    <h2 class="font-display text-xl font-semibold mb-4">{{ 'customer.orders' | t }}</h2>
+
+    {%- if customer.orders.size > 0 -%}
+      <div class="account-orders">
+        {%- for order in customer.orders -%}
+          <a href="{{ order.customer_url }}" class="account-order-card">
+            <div class="account-order-card__header">
+              <span class="account-order-card__name">{{ order.name }}</span>
+              <span class="account-order-card__status badge {% if order.fulfillment_status == 'fulfilled' %}badge-new{% else %}badge-top{% endif %}">
+                {{ order.fulfillment_status_label }}
+              </span>
+            </div>
+            <div class="account-order-card__details">
+              <span class="text-sm text-muted">
+                {% render 'icon', icon: 'clock', size: 14 %}
+                {{ order.created_at | date: "%d/%m/%Y" }}
+              </span>
+              <span class="text-sm text-muted">
+                {% render 'icon', icon: 'package', size: 14 %}
+                {{ order.line_items.size }} {{ 'cart.items' | t }}
+              </span>
+              <span class="font-semibold">{{ order.total_price | money_without_trailing_zeros }}</span>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="empty-state">
+        <div class="empty-state__icon">
+          {% render 'icon', icon: 'package', size: 48 %}
+        </div>
+        <p class="empty-state__title">{{ 'customer.no_orders' | t }}</p>
+        <p class="empty-state__text">{{ 'customer.no_orders_text' | t }}</p>
+        <a href="/collections/all" class="btn btn-primary">{{ 'cart.view_products' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

@@ -1,0 +1,16 @@
+{%- comment -%}
+  Renders formatted price display.
+  Usage: {% render 'price', price: variant.price, compare_at_price: variant.compare_at_price %}
+  Optional: {% render 'price', price: variant.price, large: true %}
+{%- endcomment -%}
+
+<div class="price-wrapper">
+  <span class="price{% if large %} price--lg{% endif %}">
+    {{ price | money_without_trailing_zeros }}
+  </span>
+  {%- if compare_at_price and compare_at_price > price -%}
+    <span class="price--compare">
+      {{ compare_at_price | money_without_trailing_zeros }}
+    </span>
+  {%- endif -%}
+</div>

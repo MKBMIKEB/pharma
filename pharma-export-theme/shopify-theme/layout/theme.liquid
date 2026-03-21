@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>{{ page_title }}{% unless page_title contains shop.name %} | {{ shop.name }}{% endunless %}</title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  {% render 'head-meta' %}
+  {% render 'structured-data' %}
+
+  <style>
+    {{ settings.font_heading | font_face: font_display: 'swap' }}
+    {{ settings.font_body | font_face: font_display: 'swap' }}
+
+    :root {
+      --color-primary: {{ settings.color_primary }};
+      --color-primary-foreground: {{ settings.color_primary_foreground }};
+      --color-accent: {{ settings.color_accent }};
+      --color-accent-foreground: {{ settings.color_accent_foreground }};
+      --color-background: {{ settings.color_background }};
+      --color-foreground: {{ settings.color_foreground }};
+      --color-card: {{ settings.color_card }};
+      --color-muted: {{ settings.color_muted }};
+      --color-border: {{ settings.color_border }};
+      --color-secondary-bg: {{ settings.color_secondary_bg }};
+      --color-destructive: {{ settings.color_destructive }};
+      --color-green-light: {{ settings.color_green_light }};
+      --color-green-medium: {{ settings.color_green_medium }};
+      --color-gold-light: {{ settings.color_gold_light }};
+      --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+      --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+    }
+  </style>
+
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+
+  {{ content_for_header }}
+</head>
+<body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
+  <a href="#MainContent" class="sr-only">{{ 'general.skip_to_content' | t }}</a>
+
+  <div class="min-h-screen flex flex-col">
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="flex-1" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+  </div>
+
+  {% if settings.whatsapp_enabled %}
+    {% section 'whatsapp-button' %}
+  {% endif %}
+
+  <div id="toast-container"></div>
+
+  {{ 'theme.js' | asset_url | script_tag }}
+</body>
+</html>

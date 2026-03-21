@@ -1,0 +1,7 @@
+[
+  { "title": "Salud Masculina", "handle": "salud-masculina", "body_html": "Suplementos formulados para apoyar el bienestar del hombre." },
+  { "title": "Energía", "handle": "energia", "body_html": "Fórmulas con vitaminas y adaptógenos para tu vitalidad diaria." },
+  { "title": "Vitaminas", "handle": "vitaminas", "body_html": "Vitaminas y minerales esenciales para complementar tu nutrición." },
+  { "title": "Sueño", "handle": "sueno", "body_html": "Ingredientes naturales que contribuyen a tu descanso nocturno." },
+  { "title": "Inmunidad", "handle": "inmunidad", "body_html": "Nutrientes que apoyan el funcionamiento normal del sistema inmunitario." }
+]

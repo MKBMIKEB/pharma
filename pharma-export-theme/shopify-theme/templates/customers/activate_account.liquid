@@ -1,0 +1,26 @@
+<div class="customer-page">
+  <div class="customer-page__icon">
+    {% render 'icon', icon: 'shield-check', size: 32 %}
+  </div>
+  <h1>{{ 'customer.activate_title' | t }}</h1>
+  <p class="customer-page__subtitle">{{ 'customer.activate_subtitle' | t }}</p>
+
+  {% form 'activate_customer_password' %}
+    <div class="form-group">
+      <label for="password">{{ 'customer.new_password' | t }}</label>
+      <div class="input-password-wrap">
+        <input type="password" id="password" name="customer[password]" class="input" required>
+        <button type="button" class="input-password-toggle" data-toggle-password="password" aria-label="{{ 'customer.show_password' | t }}">
+          {% render 'icon', icon: 'eye', size: 18 %}
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password-confirm">{{ 'customer.confirm_password' | t }}</label>
+      <input type="password" id="password-confirm" name="customer[password_confirmation]" class="input" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg w-full">{{ 'customer.activate' | t }}</button>
+  {% endform %}
+</div>

@@ -1,0 +1,28 @@
+{%- comment -%}
+  VitalPlus - 404 Not Found Section
+{%- endcomment -%}
+
+<section class="section-padding min-h-screen flex items-center justify-center">
+  <div class="container-narrow">
+    <div class="empty-state">
+      <div class="not-found__code">404</div>
+      <p class="empty-state__title">{{ 'general.404_title' | t }}</p>
+      <p class="empty-state__text">{{ 'general.404_text' | t }}</p>
+      <div class="flex justify-center gap-4 flex-wrap">
+        <a href="/" class="btn btn-primary btn-lg">
+          {{ 'general.404_cta' | t }}
+        </a>
+        <a href="/collections/all" class="btn btn-ghost btn-lg">
+          {{ 'cart.view_products' | t }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Página 404",
+  "settings": []
+}
+{% endschema %}

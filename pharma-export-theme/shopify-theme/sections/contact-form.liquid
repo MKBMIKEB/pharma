@@ -1,0 +1,195 @@
+{%- comment -%}
+  VitalPlus - Contact Form Section
+  Features: breadcrumbs, subject field, contact info cards, WhatsApp CTA.
+{%- endcomment -%}
+
+<section class="section-padding">
+  <div class="container-narrow">
+    {% render 'breadcrumbs' %}
+
+    <h1 class="font-display text-3xl font-bold text-center mb-2">{{ section.settings.heading }}</h1>
+    <p class="text-muted text-center mb-12">{{ section.settings.subheading }}</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      {%- comment -%} Contact Form {%- endcomment -%}
+      <div>
+        {% form 'contact' %}
+          {%- if form.posted_successfully? -%}
+            <div class="contact-success mb-6">
+              <div class="contact-success__icon">
+                {% render 'icon', icon: 'check', size: 24 %}
+              </div>
+              <p class="font-semibold">{{ 'contact.success' | t }}</p>
+            </div>
+          {%- endif -%}
+
+          {%- if form.errors -%}
+            <div class="alert alert--warning mb-4">{{ form.errors | default_errors }}</div>
+          {%- endif -%}
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="form-group">
+              <label for="contact-name">{{ 'contact.name' | t }} *</label>
+              <input type="text" id="contact-name" name="contact[name]" class="input" required>
+            </div>
+
+            <div class="form-group">
+              <label for="contact-email">{{ 'contact.email' | t }} *</label>
+              <input type="email" id="contact-email" name="contact[email]" class="input" required>
+            </div>
+          </div>
+
+          {%- if section.settings.show_phone_field -%}
+            <div class="form-group">
+              <label for="contact-phone">{{ 'contact.phone' | t }}</label>
+              <input type="tel" id="contact-phone" name="contact[phone]" class="input">
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_subject_field -%}
+            <div class="form-group">
+              <label for="contact-subject">{{ 'contact.subject' | t }} *</label>
+              <select id="contact-subject" name="contact[subject]" class="input select" required>
+                <option value="">{{ 'contact.select_subject' | t }}</option>
+                <option value="Información de productos">{{ 'contact.subject_products' | t }}</option>
+                <option value="Estado de pedido">{{ 'contact.subject_order' | t }}</option>
+                <option value="Devoluciones">{{ 'contact.subject_returns' | t }}</option>
+                <option value="Otro">{{ 'contact.subject_other' | t }}</option>
+              </select>
+            </div>
+          {%- endif -%}
+
+          <div class="form-group">
+            <label for="contact-body">{{ 'contact.message' | t }} *</label>
+            <textarea id="contact-body" name="contact[body]" class="input" rows="5" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg w-full">
+            {% render 'icon', icon: 'mail', size: 18 %}
+            {{ 'contact.send' | t }}
+          </button>
+        {% endform %}
+      </div>
+
+      {%- comment -%} Contact Info Sidebar {%- endcomment -%}
+      <div>
+        <div class="space-y-4">
+          {%- for block in section.blocks -%}
+            <div class="contact-info-card" {{ block.shopify_attributes }}>
+              <div class="contact-info-card__icon">
+                {% render 'icon', icon: block.settings.icon %}
+              </div>
+              <div>
+                <p class="font-semibold text-sm">{{ block.settings.label }}</p>
+                <p class="text-sm text-muted">{{ block.settings.value }}</p>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if settings.whatsapp_enabled -%}
+          {%- assign wa_msg = settings.whatsapp_message | url_encode -%}
+          <a
+            href="https://wa.me/{{ settings.whatsapp_number }}?text={{ wa_msg }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-lg w-full mt-6"
+            style="background-color: #25D366; color: #fff;"
+          >
+            {% render 'icon', icon: 'whatsapp', size: 20 %}
+            {{ 'contact.whatsapp_cta' | t }}
+          </a>
+        {%- endif -%}
+
+        {%- comment -%} Hours {%- endcomment -%}
+        {%- if section.settings.hours_text != blank -%}
+          <div class="contact-hours mt-6">
+            <h3 class="font-display font-semibold text-sm mb-2">{{ 'contact.hours' | t }}</h3>
+            <p class="text-sm text-muted leading-relaxed">{{ section.settings.hours_text }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Formulario de Contacto",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Contacto"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo",
+      "default": "¿Tienes preguntas? Estamos aquí para ayudarte."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone_field",
+      "label": "Mostrar campo de teléfono",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subject_field",
+      "label": "Mostrar campo de asunto",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "hours_text",
+      "label": "Horario de atención",
+      "default": "Lunes a Viernes: 8:00 AM - 6:00 PM\nSábados: 9:00 AM - 1:00 PM"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "info",
+      "name": "Info de contacto",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "options": [
+            { "value": "mail", "label": "Correo" },
+            { "value": "phone", "label": "Teléfono" },
+            { "value": "map-pin", "label": "Ubicación" },
+            { "value": "headphones", "label": "Soporte" }
+          ],
+          "default": "mail"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etiqueta",
+          "default": "Correo"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Valor",
+          "default": "info@vitalplus.co"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Formulario de Contacto",
+      "blocks": [
+        { "type": "info", "settings": { "icon": "mail", "label": "Correo", "value": "info@vitalplus.co" } },
+        { "type": "info", "settings": { "icon": "phone", "label": "Teléfono", "value": "+57 300 123 4567" } },
+        { "type": "info", "settings": { "icon": "map-pin", "label": "Ubicación", "value": "Bogotá, Colombia" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

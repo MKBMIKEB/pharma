@@ -1,0 +1,37 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "brand_description": "Suplementos de salud de calidad premium. Tu bienestar, nuestra prioridad."
+      },
+      "blocks": {
+        "menu_1": {
+          "type": "menu",
+          "settings": {
+            "heading": "Tienda",
+            "menu": "footer-shop"
+          }
+        },
+        "menu_2": {
+          "type": "menu",
+          "settings": {
+            "heading": "Información",
+            "menu": "footer-info"
+          }
+        },
+        "menu_3": {
+          "type": "menu",
+          "settings": {
+            "heading": "Legal",
+            "menu": "footer-legal"
+          }
+        }
+      },
+      "block_order": ["menu_1", "menu_2", "menu_3"]
+    }
+  },
+  "order": ["footer"]
+}

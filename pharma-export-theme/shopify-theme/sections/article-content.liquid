@@ -1,0 +1,152 @@
+{%- comment -%}
+  VitalPlus - Article Content Section
+  Features: breadcrumbs, hero image, author, reading time, share links, prev/next nav.
+{%- endcomment -%}
+
+<section class="section-padding">
+  <div class="container-narrow" style="max-width: 48rem;">
+    {% render 'breadcrumbs' %}
+
+    {%- comment -%} Article Meta {%- endcomment -%}
+    <div class="article-meta mb-4">
+      {%- if article.tags.size > 0 -%}
+        <span class="blog-card__tag">{{ article.tags.first }}</span>
+      {%- endif -%}
+      <span class="blog-card__date">{{ article.published_at | date: "%d %b %Y" }}</span>
+
+      {%- comment -%} Estimated reading time {%- endcomment -%}
+      {%- assign words = article.content | strip_html | split: ' ' | size -%}
+      {%- assign reading_time = words | divided_by: 200 -%}
+      {%- if reading_time < 1 -%}{%- assign reading_time = 1 -%}{%- endif -%}
+      <span class="article-reading-time">
+        {{ reading_time }} min {{ 'blog.read_time' | t }}
+      </span>
+    </div>
+
+    <h1 class="font-display text-3xl md:text-4xl font-bold mb-6 leading-tight">{{ article.title }}</h1>
+
+    {%- comment -%} Author {%- endcomment -%}
+    {%- if section.settings.show_author -%}
+      <div class="article-author mb-8">
+        <div class="article-author__avatar">
+          {{ article.author | slice: 0 }}
+        </div>
+        <div>
+          <p class="article-author__name">{{ article.author }}</p>
+          <p class="article-author__role text-xs text-muted">{{ 'blog.author' | t }}</p>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Hero Image {%- endcomment -%}
+    {%- if article.image -%}
+      <div class="article-hero mb-8">
+        <img
+          src="{{ article.image | image_url: width: 1200, height: 600, crop: 'center' }}"
+          alt="{{ article.title | escape }}"
+          width="1200"
+          height="600"
+          loading="eager"
+          class="article-hero__img"
+        >
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Article Content {%- endcomment -%}
+    <div class="prose mb-8">
+      {{ article.content }}
+    </div>
+
+    {%- comment -%} Tags {%- endcomment -%}
+    {%- if article.tags.size > 0 -%}
+      <div class="article-tags mb-8">
+        {%- for tag in article.tags -%}
+          <a href="{{ blog.url }}/tagged/{{ tag | handleize }}" class="pill">{{ tag }}</a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Share Links {%- endcomment -%}
+    {%- if section.settings.show_share -%}
+      <div class="article-share mb-8">
+        <p class="text-sm font-semibold mb-2">{{ 'blog.share' | t }}</p>
+        <div class="article-share__links">
+          <a
+            href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ article.url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="article-share__btn"
+            aria-label="Facebook"
+          >
+            Facebook
+          </a>
+          <a
+            href="https://twitter.com/intent/tweet?url={{ shop.url }}{{ article.url }}&text={{ article.title | url_encode }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="article-share__btn"
+            aria-label="Twitter"
+          >
+            Twitter
+          </a>
+          <a
+            href="https://api.whatsapp.com/send?text={{ article.title | url_encode }}%20{{ shop.url }}{{ article.url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="article-share__btn article-share__btn--whatsapp"
+            aria-label="WhatsApp"
+          >
+            WhatsApp
+          </a>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Previous / Next Navigation {%- endcomment -%}
+    {%- if blog.next_article or blog.previous_article -%}
+      <nav class="article-nav" aria-label="{{ 'blog.article_nav' | t }}">
+        {%- if blog.previous_article -%}
+          <a href="{{ blog.previous_article }}" class="article-nav__link">
+            <span class="article-nav__direction">
+              {% render 'icon', icon: 'arrow-left', size: 14 %}
+              {{ 'accessibility.previous' | t }}
+            </span>
+            <span class="article-nav__title">{{ blog.previous_article.title }}</span>
+          </a>
+        {%- else -%}
+          <span></span>
+        {%- endif -%}
+
+        {%- if blog.next_article -%}
+          <a href="{{ blog.next_article }}" class="article-nav__link article-nav__link--next">
+            <span class="article-nav__direction">
+              {{ 'accessibility.next' | t }}
+              {% render 'icon', icon: 'chevron-right', size: 14 %}
+            </span>
+            <span class="article-nav__title">{{ blog.next_article.title }}</span>
+          </a>
+        {%- endif -%}
+      </nav>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contenido del Artículo",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Mostrar autor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "Mostrar botones de compartir",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

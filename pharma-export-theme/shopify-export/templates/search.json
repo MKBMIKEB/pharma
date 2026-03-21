@@ -1,0 +1,1 @@
+{ "name": "Search", "sections": { "header": { "type": "header" }, "search-main": { "type": "search-main", "settings": { "show_suggestions": true, "products_per_page": 12 } }, "footer": { "type": "footer" } }, "order": ["header", "search-main", "footer"] }

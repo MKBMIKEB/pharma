@@ -1,0 +1,12 @@
+{
+  "namespace": "custom",
+  "definitions": [
+    { "key": "ingredients", "name": "Ingredientes", "type": "multi_line_text_field", "description": "Lista completa de ingredientes activos" },
+    { "key": "dosage", "name": "Dosis", "type": "single_line_text_field", "description": "Dosis por cápsula/porción" },
+    { "key": "warnings", "name": "Advertencias", "type": "multi_line_text_field", "description": "Advertencias y disclaimer legal" },
+    { "key": "target_audience", "name": "Para quién es", "type": "single_line_text_field", "description": "Público objetivo del producto" },
+    { "key": "benefits", "name": "Beneficios", "type": "list.single_line_text_field", "description": "Lista de beneficios (claims aprobados)" },
+    { "key": "format", "name": "Formato", "type": "single_line_text_field", "description": "Cápsulas, cápsulas blandas, polvo, etc." },
+    { "key": "how_to_use", "name": "Cómo usar", "type": "multi_line_text_field", "description": "Instrucciones de uso" }
+  ]
+}

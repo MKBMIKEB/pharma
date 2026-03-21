@@ -1,0 +1,106 @@
+<header class="header" data-header>
+  <div class="header__inner container-narrow">
+    {%- comment -%} Logo {%- endcomment -%}
+    <a href="/" class="header__logo">
+      {%- if section.settings.logo -%}
+        <img
+          src="{{ section.settings.logo | image_url: height: 40 }}"
+          alt="{{ shop.name | escape }}"
+          height="40"
+          loading="eager"
+        >
+      {%- else -%}
+        <div class="header__logo-icon green-gradient">
+          <span>V+</span>
+        </div>
+        <span class="header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    {%- comment -%} Desktop Navigation {%- endcomment -%}
+    <nav class="header__nav" aria-label="Main navigation">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <a href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>
+          {{ link.title }}
+        </a>
+      {%- endfor -%}
+    </nav>
+
+    {%- comment -%} Action buttons {%- endcomment -%}
+    <div class="header__actions">
+      {%- if section.settings.show_search -%}
+        <a href="{{ routes.search_url }}" class="btn btn-ghost btn-icon" aria-label="{{ 'header.search' | t }}">
+          {% render 'icon', icon: 'search', size: 20 %}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_cart -%}
+        <a href="{{ routes.cart_url }}" class="btn btn-ghost btn-icon relative" aria-label="{{ 'header.cart' | t }}">
+          {% render 'icon', icon: 'shopping-bag', size: 20 %}
+          {%- if cart.item_count > 0 -%}
+            <span class="header__cart-count" data-cart-count>{{ cart.item_count }}</span>
+          {%- endif -%}
+        </a>
+      {%- endif -%}
+
+      {%- comment -%} Mobile menu toggle {%- endcomment -%}
+      <button
+        class="btn btn-ghost btn-icon md-hidden"
+        aria-label="{{ 'header.menu_toggle' | t }}"
+        aria-expanded="false"
+        data-mobile-menu-toggle
+        style="display: none;"
+      >
+        <span class="menu-icon">{% render 'icon', icon: 'menu', size: 20 %}</span>
+        <span class="close-icon" style="display:none;">{% render 'icon', icon: 'x', size: 20 %}</span>
+      </button>
+    </div>
+  </div>
+
+  {%- comment -%} Mobile Navigation {%- endcomment -%}
+  <nav class="mobile-menu" data-mobile-menu aria-label="Mobile navigation">
+    <div class="mobile-menu__inner">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </div>
+  </nav>
+</header>
+
+<style>
+  @media (max-width: 767px) {
+    [data-mobile-menu-toggle] { display: flex !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Encabezado",
+  "class": "header-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menú de navegación",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Mostrar icono de búsqueda",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Mostrar icono de carrito",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

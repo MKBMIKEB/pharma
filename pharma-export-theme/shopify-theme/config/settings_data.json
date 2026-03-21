@@ -1,0 +1,54 @@
+{
+  "current": {
+    "color_primary": "#1B4332",
+    "color_primary_foreground": "#FAF9F7",
+    "color_accent": "#C9A84C",
+    "color_accent_foreground": "#1A2E1A",
+    "color_background": "#FAF9F7",
+    "color_foreground": "#1A2E1A",
+    "color_card": "#FFFFFF",
+    "color_muted": "#6B7C6B",
+    "color_border": "#E8E4DD",
+    "color_secondary_bg": "#F5F3EF",
+    "color_destructive": "#DC2626",
+    "color_green_light": "#E8F0E8",
+    "color_green_medium": "#2D5A3E",
+    "color_gold_light": "#D4B96A",
+    "font_heading": "playfair_display_n7",
+    "font_body": "inter_n4",
+    "show_free_shipping_bar": true,
+    "free_shipping_threshold": 150000,
+    "free_shipping_text": "Envío gratis en pedidos desde $150.000 COP",
+    "whatsapp_enabled": true,
+    "whatsapp_number": "573001234567",
+    "whatsapp_message": "Hola, quiero información sobre sus suplementos",
+    "legal_disclaimer": "Este producto es un suplemento alimenticio. No reemplaza una alimentación equilibrada ni un estilo de vida saludable. Consulte a un profesional de la salud antes de consumir. Resultados individuales pueden variar.",
+    "sections": {
+      "header-group": {
+        "type": "header-group",
+        "sections": {
+          "announcement-bar": {
+            "type": "announcement-bar",
+            "settings": {}
+          },
+          "header": {
+            "type": "header",
+            "settings": {}
+          }
+        },
+        "order": ["announcement-bar", "header"]
+      },
+      "footer-group": {
+        "type": "footer-group",
+        "sections": {
+          "footer": {
+            "type": "footer",
+            "settings": {}
+          }
+        },
+        "order": ["footer"]
+      }
+    },
+    "content_for_index": []
+  }
+}

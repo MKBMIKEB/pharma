@@ -1,0 +1,58 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "VitalPlus",
+    "theme_version": "1.0.0",
+    "theme_author": "VitalPlus Colombia",
+    "theme_documentation_url": "https://vitalplus.co",
+    "theme_support_url": "https://vitalplus.co/pages/contact"
+  },
+  {
+    "name": "Colores",
+    "settings": [
+      { "type": "color", "id": "color_primary", "label": "Color primario (verde)", "default": "#1B4332" },
+      { "type": "color", "id": "color_primary_foreground", "label": "Texto sobre primario", "default": "#FAF9F7" },
+      { "type": "color", "id": "color_accent", "label": "Color acento (dorado)", "default": "#C9A84C" },
+      { "type": "color", "id": "color_accent_foreground", "label": "Texto sobre acento", "default": "#1A2E1A" },
+      { "type": "color", "id": "color_background", "label": "Fondo general", "default": "#FAF9F7" },
+      { "type": "color", "id": "color_foreground", "label": "Texto principal", "default": "#1A2E1A" },
+      { "type": "color", "id": "color_card", "label": "Fondo tarjetas", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_muted", "label": "Texto secundario", "default": "#6B7C6B" },
+      { "type": "color", "id": "color_border", "label": "Bordes", "default": "#E8E4DD" },
+      { "type": "color", "id": "color_secondary_bg", "label": "Fondo secundario", "default": "#F5F3EF" },
+      { "type": "color", "id": "color_destructive", "label": "Color error/descuento", "default": "#DC2626" },
+      { "type": "color", "id": "color_green_light", "label": "Verde claro (fondos)", "default": "#E8F0E8" },
+      { "type": "color", "id": "color_green_medium", "label": "Verde medio (hover)", "default": "#2D5A3E" },
+      { "type": "color", "id": "color_gold_light", "label": "Dorado claro", "default": "#D4B96A" }
+    ]
+  },
+  {
+    "name": "Tipografía",
+    "settings": [
+      { "type": "font_picker", "id": "font_heading", "label": "Fuente para títulos", "default": "playfair_display_n7" },
+      { "type": "font_picker", "id": "font_body", "label": "Fuente para cuerpo", "default": "inter_n4" }
+    ]
+  },
+  {
+    "name": "Envío gratis",
+    "settings": [
+      { "type": "checkbox", "id": "show_free_shipping_bar", "label": "Mostrar barra de envío gratis", "default": true },
+      { "type": "number", "id": "free_shipping_threshold", "label": "Monto mínimo para envío gratis (COP)", "default": 150000 },
+      { "type": "text", "id": "free_shipping_text", "label": "Texto barra de envío gratis", "default": "Envío gratis en pedidos desde $150.000 COP" }
+    ]
+  },
+  {
+    "name": "WhatsApp",
+    "settings": [
+      { "type": "checkbox", "id": "whatsapp_enabled", "label": "Mostrar botón de WhatsApp", "default": true },
+      { "type": "text", "id": "whatsapp_number", "label": "Número WhatsApp (con código de país)", "default": "573001234567" },
+      { "type": "text", "id": "whatsapp_message", "label": "Mensaje predeterminado", "default": "Hola, quiero información sobre sus suplementos" }
+    ]
+  },
+  {
+    "name": "Disclaimer legal",
+    "settings": [
+      { "type": "textarea", "id": "legal_disclaimer", "label": "Texto disclaimer suplementos", "default": "Este producto es un suplemento alimenticio. No reemplaza una alimentación equilibrada ni un estilo de vida saludable. Consulte a un profesional de la salud antes de consumir. Resultados individuales pueden variar." }
+    ]
+  }
+]

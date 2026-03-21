@@ -1,0 +1,188 @@
+{%- comment -%}
+  VitalPlus - About Page Section
+  Features: hero image, intro, feature cards, stats, mission, CTA.
+{%- endcomment -%}
+
+<section class="section-padding">
+  <div class="container-narrow" style="max-width: 56rem;">
+    {% render 'breadcrumbs' %}
+
+    {%- comment -%} About Hero Image {%- endcomment -%}
+    {%- if section.settings.hero_image != blank -%}
+      <div class="about-hero mb-8">
+        <img
+          src="{{ section.settings.hero_image | image_url: width: 1200, height: 400, crop: 'center' }}"
+          alt="{{ section.settings.heading | escape }}"
+          width="1200"
+          height="400"
+          loading="eager"
+          class="about-hero__img"
+        >
+      </div>
+    {%- endif -%}
+
+    <h1 class="font-display text-3xl font-bold text-center mb-4">{{ section.settings.heading }}</h1>
+    <p class="text-muted text-center text-lg mb-12 leading-relaxed" style="max-width: 40rem; margin-left: auto; margin-right: auto;">{{ section.settings.intro_text }}</p>
+
+    {%- comment -%} Stats Counters {%- endcomment -%}
+    {%- assign stats = section.blocks | where: 'type', 'stat' -%}
+    {%- if stats.size > 0 -%}
+      <div class="about-stats mb-12">
+        {%- for block in stats -%}
+          <div class="about-stat" {{ block.shopify_attributes }}>
+            <span class="about-stat__number">{{ block.settings.number }}</span>
+            <span class="about-stat__label">{{ block.settings.label }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Feature Cards {%- endcomment -%}
+    {%- assign features = section.blocks | where: 'type', 'feature' -%}
+    {%- if features.size > 0 -%}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        {%- for block in features -%}
+          <div class="about-card" {{ block.shopify_attributes }}>
+            <div class="about-card__icon">
+              {% render 'icon', icon: block.settings.icon %}
+            </div>
+            <h3 class="font-display font-semibold text-lg mb-2">{{ block.settings.title }}</h3>
+            <p class="text-sm text-muted leading-relaxed">{{ block.settings.description }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Mission Block {%- endcomment -%}
+    {%- if section.settings.mission_text != blank -%}
+      <div class="about-mission mb-12">
+        <h2 class="font-display text-2xl font-bold mb-4">{{ section.settings.mission_heading }}</h2>
+        <p class="text-muted leading-relaxed">{{ section.settings.mission_text }}</p>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} CTA {%- endcomment -%}
+    {%- if section.settings.cta_text != blank -%}
+      <div class="text-center">
+        <a href="{{ section.settings.cta_url | default: '/collections/all' }}" class="btn btn-primary btn-lg">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sobre Nosotros",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Imagen hero"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Sobre VitalPlus"
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Texto introductorio",
+      "default": "Somos una empresa colombiana dedicada a ofrecer suplementos de salud de la más alta calidad. Creemos que el bienestar debe ser accesible para todos."
+    },
+    {
+      "type": "text",
+      "id": "mission_heading",
+      "label": "Título de misión",
+      "default": "Nuestra misión"
+    },
+    {
+      "type": "textarea",
+      "id": "mission_text",
+      "label": "Texto de misión",
+      "default": "Brindar suplementos de salud de grado farmacéutico, respaldados por la ciencia y accesibles para todos los colombianos que buscan mejorar su calidad de vida."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texto del botón CTA",
+      "default": "Ver nuestros productos"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Enlace del CTA"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Característica",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "options": [
+            { "value": "shield-check", "label": "Calidad" },
+            { "value": "users", "label": "Equipo" },
+            { "value": "leaf", "label": "Natural" },
+            { "value": "award", "label": "Compromiso" },
+            { "value": "heart", "label": "Corazón" },
+            { "value": "truck", "label": "Envío" }
+          ],
+          "default": "shield-check"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Calidad garantizada"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Descripción",
+          "default": "Todos nuestros productos pasan por rigurosos controles de calidad."
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Estadística",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Número",
+          "default": "10,000+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etiqueta",
+          "default": "Clientes satisfechos"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Sobre Nosotros",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "10,000+", "label": "Clientes satisfechos" } },
+        { "type": "stat", "settings": { "number": "50+", "label": "Productos" } },
+        { "type": "stat", "settings": { "number": "4.8", "label": "Calificación promedio" } },
+        { "type": "feature", "settings": { "icon": "shield-check", "title": "Calidad garantizada", "description": "Todos nuestros productos pasan por rigurosos controles de calidad." } },
+        { "type": "feature", "settings": { "icon": "users", "title": "Equipo experto", "description": "Profesionales de la salud respaldan cada producto." } },
+        { "type": "feature", "settings": { "icon": "leaf", "title": "Ingredientes naturales", "description": "Fórmulas basadas en ingredientes de origen natural." } },
+        { "type": "feature", "settings": { "icon": "award", "title": "Compromiso con Colombia", "description": "Orgullosamente colombianos, con estándares internacionales." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

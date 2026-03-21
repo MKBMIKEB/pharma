@@ -1,0 +1,29 @@
+{
+  "current": {
+    "sections": {
+      "colors": {
+        "name": "Colores",
+        "settings": [
+          { "type": "color", "id": "color_primary", "label": "Color primario", "default": "#1B4332" },
+          { "type": "color", "id": "color_accent", "label": "Color acento (dorado)", "default": "#C9A84C" },
+          { "type": "color", "id": "color_background", "label": "Fondo", "default": "#FAF9F7" },
+          { "type": "color", "id": "color_text", "label": "Texto", "default": "#1A2E1A" }
+        ]
+      },
+      "typography": {
+        "name": "Tipografía",
+        "settings": [
+          { "type": "font_picker", "id": "font_heading", "label": "Títulos", "default": "playfair_display_n7" },
+          { "type": "font_picker", "id": "font_body", "label": "Cuerpo", "default": "inter_n4" }
+        ]
+      },
+      "free_shipping": {
+        "name": "Envío gratis",
+        "settings": [
+          { "type": "text", "id": "free_shipping_text", "label": "Texto barra superior", "default": "Envío gratis en pedidos desde $150.000 COP" },
+          { "type": "number", "id": "free_shipping_threshold", "label": "Monto mínimo (COP)", "default": 150000 }
+        ]
+      }
+    }
+  }
+}

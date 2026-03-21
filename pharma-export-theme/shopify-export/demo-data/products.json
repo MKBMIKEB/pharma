@@ -1,0 +1,69 @@
+[
+  {
+    "id": "1", "title": "Prostate Plus – Health Complex", "handle": "prostate-plus",
+    "body_html": "<p>Fórmula avanzada con Saw Palmetto, Zinc y Licopeno diseñada para apoyar la salud prostática masculina.</p>",
+    "vendor": "VitalPlus", "product_type": "Suplemento",
+    "tags": ["próstata", "hombre", "salud masculina", "saw palmetto"],
+    "variants": [
+      { "title": "30 cápsulas", "price": "89900.00", "sku": "PP-30", "inventory_quantity": 50, "option1": "30 cápsulas" },
+      { "title": "60 cápsulas", "price": "159900.00", "compare_at_price": "179800.00", "sku": "PP-60", "inventory_quantity": 35, "option1": "60 cápsulas" },
+      { "title": "90 cápsulas", "price": "219900.00", "compare_at_price": "269700.00", "sku": "PP-90", "inventory_quantity": 20, "option1": "90 cápsulas" }
+    ],
+    "options": [{ "name": "Presentación", "values": ["30 cápsulas", "60 cápsulas", "90 cápsulas"] }]
+  },
+  {
+    "id": "2", "title": "Multivitamínico Diario", "handle": "multivitaminico-diario",
+    "body_html": "<p>Complejo multivitamínico completo con más de 20 vitaminas y minerales esenciales.</p>",
+    "vendor": "VitalPlus", "product_type": "Suplemento", "tags": ["multivitamínico", "vitaminas", "minerales"],
+    "variants": [
+      { "title": "30 cápsulas", "price": "49900.00", "sku": "MV-30", "inventory_quantity": 100, "option1": "30 cápsulas" },
+      { "title": "60 cápsulas", "price": "89900.00", "compare_at_price": "99800.00", "sku": "MV-60", "inventory_quantity": 80, "option1": "60 cápsulas" },
+      { "title": "90 cápsulas", "price": "119900.00", "compare_at_price": "149700.00", "sku": "MV-90", "inventory_quantity": 45, "option1": "90 cápsulas" }
+    ],
+    "options": [{ "name": "Presentación", "values": ["30 cápsulas", "60 cápsulas", "90 cápsulas"] }]
+  },
+  {
+    "id": "3", "title": "Omega 3 Premium", "handle": "omega-3-premium",
+    "body_html": "<p>Aceite de pescado purificado con alta concentración de EPA y DHA.</p>",
+    "vendor": "VitalPlus", "product_type": "Suplemento", "tags": ["omega 3", "EPA", "DHA"],
+    "variants": [
+      { "title": "30 cápsulas", "price": "59900.00", "sku": "OM-30", "inventory_quantity": 70, "option1": "30 cápsulas" },
+      { "title": "60 cápsulas", "price": "109900.00", "compare_at_price": "119800.00", "sku": "OM-60", "inventory_quantity": 55, "option1": "60 cápsulas" },
+      { "title": "90 cápsulas", "price": "149900.00", "compare_at_price": "179700.00", "sku": "OM-90", "inventory_quantity": 30, "option1": "90 cápsulas" }
+    ],
+    "options": [{ "name": "Presentación", "values": ["30 cápsulas", "60 cápsulas", "90 cápsulas"] }]
+  },
+  {
+    "id": "4", "title": "Magnesio + Zinc – Sueño", "handle": "magnesio-zinc-sueno",
+    "body_html": "<p>Combinación de Magnesio bisglicinato y Zinc para apoyar la relajación y el descanso nocturno.</p>",
+    "vendor": "VitalPlus", "product_type": "Suplemento", "tags": ["magnesio", "zinc", "sueño"],
+    "variants": [
+      { "title": "30 cápsulas", "price": "44900.00", "sku": "MZ-30", "inventory_quantity": 90, "option1": "30 cápsulas" },
+      { "title": "60 cápsulas", "price": "79900.00", "compare_at_price": "89800.00", "sku": "MZ-60", "inventory_quantity": 60, "option1": "60 cápsulas" },
+      { "title": "90 cápsulas", "price": "109900.00", "compare_at_price": "134700.00", "sku": "MZ-90", "inventory_quantity": 40, "option1": "90 cápsulas" }
+    ],
+    "options": [{ "name": "Presentación", "values": ["30 cápsulas", "60 cápsulas", "90 cápsulas"] }]
+  },
+  {
+    "id": "5", "title": "Vitamina D3 + K2", "handle": "vitamina-d3-k2",
+    "body_html": "<p>Combinación sinérgica de Vitamina D3 y K2 (MK-7) para apoyar la salud ósea.</p>",
+    "vendor": "VitalPlus", "product_type": "Suplemento", "tags": ["vitamina D", "vitamina K", "huesos"],
+    "variants": [
+      { "title": "30 cápsulas", "price": "39900.00", "sku": "DK-30", "inventory_quantity": 85, "option1": "30 cápsulas" },
+      { "title": "60 cápsulas", "price": "69900.00", "compare_at_price": "79800.00", "sku": "DK-60", "inventory_quantity": 65, "option1": "60 cápsulas" },
+      { "title": "90 cápsulas", "price": "94900.00", "compare_at_price": "119700.00", "sku": "DK-90", "inventory_quantity": 50, "option1": "90 cápsulas" }
+    ],
+    "options": [{ "name": "Presentación", "values": ["30 cápsulas", "60 cápsulas", "90 cápsulas"] }]
+  },
+  {
+    "id": "6", "title": "Complejo Energía B12 + Adaptógenos", "handle": "complejo-energia-b12",
+    "body_html": "<p>Fórmula con Vitamina B12 metilcobalamina, Ashwagandha y Rhodiola para la vitalidad diaria.</p>",
+    "vendor": "VitalPlus", "product_type": "Suplemento", "tags": ["energía", "B12", "adaptógenos"],
+    "variants": [
+      { "title": "30 cápsulas", "price": "54900.00", "sku": "CE-30", "inventory_quantity": 75, "option1": "30 cápsulas" },
+      { "title": "60 cápsulas", "price": "99900.00", "compare_at_price": "109800.00", "sku": "CE-60", "inventory_quantity": 50, "option1": "60 cápsulas" },
+      { "title": "90 cápsulas", "price": "139900.00", "compare_at_price": "164700.00", "sku": "CE-90", "inventory_quantity": 25, "option1": "90 cápsulas" }
+    ],
+    "options": [{ "name": "Presentación", "values": ["30 cápsulas", "60 cápsulas", "90 cápsulas"] }]
+  }
+]

@@ -1,0 +1,43 @@
+<div class="announcement-bar" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
+  {% render 'icon', icon: section.settings.icon, size: 16 %}
+  <span>{{ section.settings.text }}</span>
+</div>
+
+{% schema %}
+{
+  "name": "Barra de anuncio",
+  "class": "announcement-bar-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Texto del anuncio",
+      "default": "Envío gratis en pedidos desde $150.000 COP"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icono",
+      "options": [
+        { "value": "truck", "label": "Camión (envío)" },
+        { "value": "shield-check", "label": "Escudo (seguridad)" },
+        { "value": "star", "label": "Estrella" },
+        { "value": "zap", "label": "Rayo (oferta)" }
+      ],
+      "default": "truck"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Color de fondo",
+      "default": "#1B4332"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color de texto",
+      "default": "#FAF9F7"
+    }
+  ]
+}
+{% endschema %}

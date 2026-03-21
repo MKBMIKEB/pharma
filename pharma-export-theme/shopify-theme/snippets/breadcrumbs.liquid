@@ -1,0 +1,37 @@
+{%- comment -%}
+  Renders breadcrumb navigation.
+  Automatically detects the current template and renders appropriate links.
+{%- endcomment -%}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <a href="/">{{ 'general.home' | t }}</a>
+
+  {%- if template.name == 'product' -%}
+    <span class="breadcrumbs__separator">/</span>
+    <a href="{{ routes.all_products_collection_url }}">{{ 'collection.all_products' | t }}</a>
+    <span class="breadcrumbs__separator">/</span>
+    <span class="breadcrumbs__current">{{ product.title }}</span>
+
+  {%- elsif template.name == 'collection' -%}
+    <span class="breadcrumbs__separator">/</span>
+    <span class="breadcrumbs__current">{{ collection.title }}</span>
+
+  {%- elsif template.name == 'article' -%}
+    <span class="breadcrumbs__separator">/</span>
+    <a href="{{ blog.url }}">{{ blog.title }}</a>
+    <span class="breadcrumbs__separator">/</span>
+    <span class="breadcrumbs__current">{{ article.title }}</span>
+
+  {%- elsif template.name == 'blog' -%}
+    <span class="breadcrumbs__separator">/</span>
+    <span class="breadcrumbs__current">{{ blog.title }}</span>
+
+  {%- elsif template.name == 'page' -%}
+    <span class="breadcrumbs__separator">/</span>
+    <span class="breadcrumbs__current">{{ page.title }}</span>
+
+  {%- elsif template.name == 'search' -%}
+    <span class="breadcrumbs__separator">/</span>
+    <span class="breadcrumbs__current">{{ 'search.title' | t }}</span>
+  {%- endif -%}
+</nav>

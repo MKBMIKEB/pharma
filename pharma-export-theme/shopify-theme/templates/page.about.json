@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "about_content": {
+      "type": "about-content",
+      "settings": {
+        "heading": "Sobre VitalPlus",
+        "intro_text": "Somos una empresa colombiana dedicada a ofrecer suplementos de salud de la más alta calidad. Creemos que el bienestar debe ser accesible para todos.",
+        "mission_heading": "Nuestra misión",
+        "mission_text": "Brindar suplementos de salud de grado farmacéutico, respaldados por la ciencia y accesibles para todos los colombianos que buscan mejorar su calidad de vida."
+      },
+      "blocks": {
+        "f1": { "type": "feature", "settings": { "icon": "shield-check", "title": "Calidad garantizada", "description": "Todos nuestros productos pasan por rigurosos controles de calidad." } },
+        "f2": { "type": "feature", "settings": { "icon": "users", "title": "Equipo experto", "description": "Profesionales de la salud respaldan cada producto." } },
+        "f3": { "type": "feature", "settings": { "icon": "leaf", "title": "Ingredientes naturales", "description": "Fórmulas basadas en ingredientes de origen natural." } },
+        "f4": { "type": "feature", "settings": { "icon": "award", "title": "Compromiso con Colombia", "description": "Orgullosamente colombianos, con estándares internacionales." } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"]
+    }
+  },
+  "order": ["about_content"]
+}

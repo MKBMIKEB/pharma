@@ -1,0 +1,111 @@
+{%- assign benefits = product.metafields.custom.benefits.value -%}
+{%- assign ingredients = product.metafields.custom.ingredients -%}
+{%- assign how_to_use = product.metafields.custom.how_to_use -%}
+{%- assign warnings = product.metafields.custom.warnings -%}
+{%- assign dosage = product.metafields.custom.dosage -%}
+{%- assign target_audience = product.metafields.custom.target_audience -%}
+{%- assign format = product.metafields.custom.format -%}
+
+{%- comment -%} Only render if there's metafield data {%- endcomment -%}
+{%- assign has_data = false -%}
+{%- if benefits != blank or ingredients != blank or how_to_use != blank or warnings != blank -%}
+  {%- assign has_data = true -%}
+{%- endif -%}
+
+{%- if has_data -%}
+<section class="section-padding" style="padding-top: 0;">
+  <div class="container-narrow">
+    {%- comment -%} Tab Triggers {%- endcomment -%}
+    <div class="tabs__triggers" data-tabs-triggers>
+      {%- if benefits != blank -%}
+        <button class="tabs__trigger active" data-tab="benefits">{{ 'product.benefits' | t }}</button>
+      {%- endif -%}
+      {%- if ingredients != blank -%}
+        <button class="tabs__trigger" data-tab="ingredients">{{ 'product.ingredients' | t }}</button>
+      {%- endif -%}
+      {%- if how_to_use != blank -%}
+        <button class="tabs__trigger" data-tab="how-to-use">{{ 'product.how_to_use' | t }}</button>
+      {%- endif -%}
+      {%- if warnings != blank -%}
+        <button class="tabs__trigger" data-tab="warnings">{{ 'product.warnings' | t }}</button>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Tab: Benefits {%- endcomment -%}
+    {%- if benefits != blank -%}
+      <div class="tabs__content active" data-tab-content="benefits">
+        <ul class="benefits-list">
+          {%- for benefit in benefits -%}
+            <li>
+              {% render 'icon', icon: 'check', size: 20 %}
+              {{ benefit }}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Tab: Ingredients {%- endcomment -%}
+    {%- if ingredients != blank -%}
+      <div class="tabs__content" data-tab-content="ingredients">
+        <div class="prose mb-6">
+          {{ ingredients | newline_to_br }}
+        </div>
+
+        {%- if format != blank or dosage != blank or target_audience != blank -%}
+          <table class="specs-table">
+            {%- if format != blank -%}
+              <tr>
+                <th>{{ 'product.format' | t }}</th>
+                <td>{{ format }}</td>
+              </tr>
+            {%- endif -%}
+            {%- if dosage != blank -%}
+              <tr>
+                <th>{{ 'product.dosage' | t }}</th>
+                <td>{{ dosage }}</td>
+              </tr>
+            {%- endif -%}
+            {%- if target_audience != blank -%}
+              <tr>
+                <th>{{ 'product.target_audience' | t }}</th>
+                <td>{{ target_audience }}</td>
+              </tr>
+            {%- endif -%}
+          </table>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Tab: How to Use {%- endcomment -%}
+    {%- if how_to_use != blank -%}
+      <div class="tabs__content" data-tab-content="how-to-use">
+        <div class="prose">
+          {{ how_to_use | newline_to_br }}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Tab: Warnings {%- endcomment -%}
+    {%- if warnings != blank -%}
+      <div class="tabs__content" data-tab-content="warnings">
+        <div class="alert alert--warning">
+          {{ warnings | newline_to_br }}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Información del Producto",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Información del Producto"
+    }
+  ]
+}
+{% endschema %}

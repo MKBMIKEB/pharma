@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "blog_posts": {
+      "type": "blog-posts",
+      "settings": {
+        "heading": "Blog",
+        "subheading": "Artículos sobre salud, nutrición y bienestar.",
+        "articles_count": 9
+      }
+    }
+  },
+  "order": ["blog_posts"]
+}

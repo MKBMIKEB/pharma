@@ -1,0 +1,474 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign discount_pct = 0 -%}
+{%- if current_variant.compare_at_price > current_variant.price -%}
+  {%- assign discount_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
+{%- endif -%}
+
+{%- comment -%} ========== SECTION 1: HERO PRODUCT ========== {%- endcomment -%}
+<section class="lp-hero section-padding">
+  <div class="container-narrow">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Inicio</a>
+      <span class="breadcrumbs__separator">/</span>
+      <a href="{{ routes.all_products_collection_url }}">Productos</a>
+      <span class="breadcrumbs__separator">/</span>
+      <span class="breadcrumbs__current">{{ product.title }}</span>
+    </nav>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 gap-10">
+      {%- comment -%} Product Gallery {%- endcomment -%}
+      <div class="lp-gallery">
+        <div class="lp-gallery__main" data-product-gallery>
+          {%- if discount_pct > 0 -%}
+            <span class="lp-gallery__discount-tag">-{{ discount_pct }}%</span>
+          {%- endif -%}
+          {%- if product.featured_image -%}
+            <img
+              id="ProductImage"
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.featured_image.alt | default: product.title | escape }}"
+              width="800"
+              height="800"
+              loading="eager"
+            >
+          {%- else -%}
+            <div class="placeholder-circle green-gradient" style="width: 12rem; height: 12rem; opacity: 0.2;"></div>
+          {%- endif -%}
+        </div>
+
+        {%- if product.images.size > 1 -%}
+          <div class="lp-gallery__thumbs">
+            {%- for image in product.images limit: 5 -%}
+              <button
+                type="button"
+                class="lp-gallery__thumb{% if forloop.first %} active{% endif %}"
+                data-thumb-index="{{ forloop.index0 }}"
+                data-thumb-src="{{ image | image_url: width: 800 }}"
+              >
+                <img src="{{ image | image_url: width: 120 }}" alt="{{ image.alt | default: product.title }}" loading="lazy" width="120" height="120">
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Product Info {%- endcomment -%}
+      <div class="lp-info">
+        {%- comment -%} Urgency Hook {%- endcomment -%}
+        {%- if discount_pct > 0 -%}
+          <div class="lp-urgency-bar">
+            {% render 'icon', icon: 'clock', size: 16 %}
+            <span>Oferta por tiempo limitado &mdash; <strong>{{ discount_pct }}% de descuento</strong></span>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Title {%- endcomment -%}
+        <h1 class="lp-info__title">{{ product.title }}</h1>
+
+        {%- comment -%} Social Proof - Rating {%- endcomment -%}
+        {%- assign rating = product.metafields.custom.rating.value | default: 4.8 -%}
+        {%- assign review_count = product.metafields.custom.review_count.value | default: 127 -%}
+        <div class="lp-info__rating">
+          {% render 'star-rating', rating: rating, count: review_count %}
+          <span class="lp-info__rating-text">{{ review_count }} clientes satisfechos</span>
+        </div>
+
+        {%- comment -%} Short Description Hook {%- endcomment -%}
+        {%- if product.metafields.custom.short_description -%}
+          <p class="lp-info__hook">{{ product.metafields.custom.short_description }}</p>
+        {%- elsif product.description != blank -%}
+          <p class="lp-info__hook">{{ product.description | strip_html | truncate: 160 }}</p>
+        {%- endif -%}
+
+        {%- comment -%} Price Block {%- endcomment -%}
+        <div class="lp-price-block" data-product-price>
+          <div class="lp-price-block__row">
+            <span class="lp-price-block__current" data-price>{{ current_variant.price | money_without_trailing_zeros }}</span>
+            {%- if current_variant.compare_at_price > current_variant.price -%}
+              <span class="lp-price-block__compare" data-compare-price>{{ current_variant.compare_at_price | money_without_trailing_zeros }}</span>
+              <span class="lp-price-block__save">Ahorras {{ current_variant.compare_at_price | minus: current_variant.price | money_without_trailing_zeros }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- comment -%} Product Form {%- endcomment -%}
+        {% form 'product', product, id: 'product-form', data-product-form: '', novalidate: 'novalidate' %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+          {%- comment -%} Variant Selector {%- endcomment -%}
+          {%- if product.variants.size > 1 -%}
+            <div class="mb-4">
+              <label class="text-sm font-semibold mb-2 block">Presentaci&oacute;n</label>
+              <div class="variant-selector" data-variant-selector>
+                {%- for variant in product.variants -%}
+                  <button
+                    type="button"
+                    class="variant-btn{% if variant.id == current_variant.id %} active{% endif %}{% unless variant.available %} disabled{% endunless %}"
+                    data-variant-id="{{ variant.id }}"
+                    data-variant-price="{{ variant.price }}"
+                    data-variant-compare-price="{{ variant.compare_at_price }}"
+                    data-variant-available="{{ variant.available }}"
+                    {% unless variant.available %}disabled{% endunless %}
+                  >
+                    {{ variant.title }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} Quantity {%- endcomment -%}
+          <div class="mb-4">
+            <label class="text-sm font-semibold mb-2 block">Cantidad</label>
+            <div class="quantity-selector" data-quantity-selector>
+              <button type="button" class="quantity-selector__btn" data-quantity-minus aria-label="Reducir cantidad">
+                {% render 'icon', icon: 'minus', size: 16 %}
+              </button>
+              <input type="number" name="quantity" value="1" min="1" class="quantity-selector__value" data-quantity-input readonly>
+              <button type="button" class="quantity-selector__btn" data-quantity-plus aria-label="Aumentar cantidad">
+                {% render 'icon', icon: 'plus', size: 16 %}
+              </button>
+            </div>
+          </div>
+
+          {%- comment -%} BUY NOW CTA {%- endcomment -%}
+          <div class="lp-cta-block">
+            <button type="submit" class="btn btn-primary btn-lg w-full lp-buy-btn" data-add-to-cart {% unless current_variant.available %}disabled{% endunless %}>
+              {%- if current_variant.available -%}
+                {% render 'icon', icon: 'check', size: 22 %}
+                <span>Comprar ahora</span>
+                {%- if discount_pct > 0 -%}
+                  <span class="lp-buy-btn__discount">&mdash; {{ discount_pct }}% OFF</span>
+                {%- endif -%}
+              {%- else -%}
+                Agotado
+              {%- endif -%}
+            </button>
+
+            <div class="lp-cta-secure">
+              {% render 'icon', icon: 'shield', size: 14 %}
+              <span>Compra 100% segura &bull; Pago protegido &bull; SSL cifrado</span>
+            </div>
+          </div>
+        {% endform %}
+
+        {%- comment -%} Trust Badges {%- endcomment -%}
+        <div class="lp-trust-badges">
+          <div class="lp-trust-badge">
+            {% render 'icon', icon: 'truck', size: 24 %}
+            <div>
+              <strong>Env&iacute;o r&aacute;pido</strong>
+              <span>Entrega en 2-5 d&iacute;as</span>
+            </div>
+          </div>
+          <div class="lp-trust-badge">
+            {% render 'icon', icon: 'shield', size: 24 %}
+            <div>
+              <strong>Garant&iacute;a 30 d&iacute;as</strong>
+              <span>Devoluci&oacute;n sin costo</span>
+            </div>
+          </div>
+          <div class="lp-trust-badge">
+            {% render 'icon', icon: 'check', size: 24 %}
+            <div>
+              <strong>Calidad Premium</strong>
+              <span>Certificado INVIMA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ========== SECTION 2: BENEFITS BAR ========== {%- endcomment -%}
+<section class="lp-benefits-bar">
+  <div class="container-narrow">
+    <div class="lp-benefits-bar__grid">
+      <div class="lp-benefits-bar__item">
+        {% render 'icon', icon: 'star', size: 28 %}
+        <span>+{{ review_count }} rese&ntilde;as positivas</span>
+      </div>
+      <div class="lp-benefits-bar__item">
+        {% render 'icon', icon: 'truck', size: 28 %}
+        <span>Env&iacute;o gratis desde $150.000</span>
+      </div>
+      <div class="lp-benefits-bar__item">
+        {% render 'icon', icon: 'shield', size: 28 %}
+        <span>Garant&iacute;a de satisfacci&oacute;n</span>
+      </div>
+      <div class="lp-benefits-bar__item">
+        {% render 'icon', icon: 'heart', size: 28 %}
+        <span>100% ingredientes naturales</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ========== SECTION 3: WHY THIS PRODUCT ========== {%- endcomment -%}
+<section class="lp-why section-padding" id="beneficios">
+  <div class="container-narrow">
+    <div class="text-center mb-8">
+      <span class="lp-section-tag">Por qu&eacute; elegir este producto</span>
+      <h2 class="lp-section-title">Resultados que puedes sentir</h2>
+      <p class="lp-section-subtitle">Formulado con los m&aacute;s altos est&aacute;ndares para tu bienestar integral</p>
+    </div>
+
+    <div class="lp-why__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'benefit' -%}
+          <div class="lp-why__card" {{ block.shopify_attributes }}>
+            <div class="lp-why__card-icon">
+              {% render 'icon', icon: block.settings.icon, size: 28 %}
+            </div>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.description }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if section.blocks.size == 0 -%}
+        <div class="lp-why__card">
+          <div class="lp-why__card-icon">{% render 'icon', icon: 'heart', size: 28 %}</div>
+          <h3>Bienestar Natural</h3>
+          <p>Ingredientes naturales de alta pureza, seleccionados para m&aacute;xima absorci&oacute;n y efectividad.</p>
+        </div>
+        <div class="lp-why__card">
+          <div class="lp-why__card-icon">{% render 'icon', icon: 'shield', size: 28 %}</div>
+          <h3>Cl&iacute;nicamente Probado</h3>
+          <p>Respaldado por estudios cient&iacute;ficos y aprobado por autoridades sanitarias colombianas.</p>
+        </div>
+        <div class="lp-why__card">
+          <div class="lp-why__card-icon">{% render 'icon', icon: 'check', size: 28 %}</div>
+          <h3>Resultados Reales</h3>
+          <p>Miles de clientes reportan mejoras significativas en las primeras semanas de uso.</p>
+        </div>
+        <div class="lp-why__card">
+          <div class="lp-why__card-icon">{% render 'icon', icon: 'star', size: 28 %}</div>
+          <h3>Calidad Premium</h3>
+          <p>Fabricado en laboratorios certificados con los m&aacute;s estrictos controles de calidad.</p>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ========== SECTION 4: PRODUCT DETAILS (full description) ========== {%- endcomment -%}
+{%- if product.description != blank -%}
+<section class="lp-details section-padding" style="background: var(--color-secondary-bg);">
+  <div class="container-narrow">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div>
+        <span class="lp-section-tag">Detalles del producto</span>
+        <h2 class="lp-section-title">Todo lo que necesitas saber</h2>
+        <div class="lp-details__content rte">
+          {{ product.description }}
+        </div>
+      </div>
+      <div class="lp-details__image">
+        {%- if product.images.size > 1 -%}
+          <img src="{{ product.images[1] | image_url: width: 600 }}" alt="{{ product.title }}" loading="lazy" width="600" height="600">
+        {%- elsif product.featured_image -%}
+          <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" loading="lazy" width="600" height="600">
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ========== SECTION 5: SOCIAL PROOF / TESTIMONIALS ========== {%- endcomment -%}
+<section class="lp-testimonials section-padding" id="opiniones">
+  <div class="container-narrow">
+    <div class="text-center mb-8">
+      <span class="lp-section-tag">Lo que dicen nuestros clientes</span>
+      <h2 class="lp-section-title">+{{ review_count }} clientes satisfechos</h2>
+    </div>
+
+    <div class="lp-testimonials__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'testimonial' -%}
+          <div class="lp-testimonial" {{ block.shopify_attributes }}>
+            <div class="lp-testimonial__stars">
+              {%- for i in (1..5) -%}
+                {% render 'icon', icon: 'star', size: 16 %}
+              {%- endfor -%}
+            </div>
+            <p class="lp-testimonial__text">"{{ block.settings.text }}"</p>
+            <div class="lp-testimonial__author">
+              <div class="lp-testimonial__avatar">{{ block.settings.name | slice: 0 }}</div>
+              <div>
+                <strong>{{ block.settings.name }}</strong>
+                {%- if block.settings.verified -%}
+                  <span class="lp-testimonial__verified">{% render 'icon', icon: 'check', size: 12 %} Compra verificada</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if section.blocks.size == 0 -%}
+        <div class="lp-testimonial">
+          <div class="lp-testimonial__stars">{%- for i in (1..5) -%}{% render 'icon', icon: 'star', size: 16 %}{%- endfor -%}</div>
+          <p class="lp-testimonial__text">"Llevo 3 meses us&aacute;ndolo y los resultados son incre&iacute;bles. Lo recomiendo al 100%."</p>
+          <div class="lp-testimonial__author">
+            <div class="lp-testimonial__avatar">M</div>
+            <div><strong>Mar&iacute;a G.</strong><span class="lp-testimonial__verified">{% render 'icon', icon: 'check', size: 12 %} Compra verificada</span></div>
+          </div>
+        </div>
+        <div class="lp-testimonial">
+          <div class="lp-testimonial__stars">{%- for i in (1..5) -%}{% render 'icon', icon: 'star', size: 16 %}{%- endfor -%}</div>
+          <p class="lp-testimonial__text">"Excelente calidad. Se nota que es un producto premium. El env&iacute;o fue muy r&aacute;pido."</p>
+          <div class="lp-testimonial__author">
+            <div class="lp-testimonial__avatar">C</div>
+            <div><strong>Carlos R.</strong><span class="lp-testimonial__verified">{% render 'icon', icon: 'check', size: 12 %} Compra verificada</span></div>
+          </div>
+        </div>
+        <div class="lp-testimonial">
+          <div class="lp-testimonial__stars">{%- for i in (1..5) -%}{% render 'icon', icon: 'star', size: 16 %}{%- endfor -%}</div>
+          <p class="lp-testimonial__text">"Mi esposo y yo lo usamos. Nos sentimos con m&aacute;s energ&iacute;a y vitalidad. Muy recomendado."</p>
+          <div class="lp-testimonial__author">
+            <div class="lp-testimonial__avatar">L</div>
+            <div><strong>Laura P.</strong><span class="lp-testimonial__verified">{% render 'icon', icon: 'check', size: 12 %} Compra verificada</span></div>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ========== SECTION 6: FAQ ========== {%- endcomment -%}
+<section class="lp-faq section-padding" style="background: var(--color-secondary-bg);" id="preguntas">
+  <div class="container-narrow" style="max-width: 48rem;">
+    <div class="text-center mb-8">
+      <span class="lp-section-tag">Preguntas frecuentes</span>
+      <h2 class="lp-section-title">&iquest;Tienes dudas? Te las resolvemos</h2>
+    </div>
+
+    <div class="lp-faq__list">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'faq' -%}
+          <details class="lp-faq__item" {{ block.shopify_attributes }}>
+            <summary>{{ block.settings.question }}</summary>
+            <div class="lp-faq__answer">{{ block.settings.answer }}</div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if section.blocks.size == 0 -%}
+        <details class="lp-faq__item">
+          <summary>&iquest;Cu&aacute;nto tarda el env&iacute;o?</summary>
+          <div class="lp-faq__answer">Realizamos env&iacute;os a toda Colombia. Tu pedido llega en 2-5 d&iacute;as h&aacute;biles. Env&iacute;o gratis en pedidos desde $150.000 COP.</div>
+        </details>
+        <details class="lp-faq__item">
+          <summary>&iquest;Es seguro comprar en l&iacute;nea?</summary>
+          <div class="lp-faq__answer">S&iacute;, usamos encriptaci&oacute;n SSL y pasarelas de pago certificadas. Tu informaci&oacute;n est&aacute; 100% protegida.</div>
+        </details>
+        <details class="lp-faq__item">
+          <summary>&iquest;Tiene garant&iacute;a de devoluci&oacute;n?</summary>
+          <div class="lp-faq__answer">S&iacute;, tienes 30 d&iacute;as para devolver el producto si no est&aacute;s satisfecho. Te reembolsamos el 100% de tu dinero.</div>
+        </details>
+        <details class="lp-faq__item">
+          <summary>&iquest;Puedo pagar contra entrega?</summary>
+          <div class="lp-faq__answer">S&iacute;, aceptamos pago contra entrega en las principales ciudades de Colombia, adem&aacute;s de tarjeta de cr&eacute;dito, PSE y Nequi.</div>
+        </details>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ========== SECTION 7: FINAL CTA ========== {%- endcomment -%}
+<section class="lp-final-cta section-padding">
+  <div class="container-narrow text-center">
+    <h2 class="lp-section-title" style="color: var(--color-primary-foreground);">No esperes m&aacute;s para sentirte mejor</h2>
+    <p style="color: rgba(250,249,247,0.85); font-size: 1.125rem; margin-bottom: 1.5rem;">
+      &Uacute;nete a miles de colombianos que ya transformaron su bienestar con {{ product.title }}.
+    </p>
+    <div class="lp-final-cta__price">
+      <span class="lp-final-cta__price-current">{{ current_variant.price | money_without_trailing_zeros }}</span>
+      {%- if current_variant.compare_at_price > current_variant.price -%}
+        <span class="lp-final-cta__price-compare">{{ current_variant.compare_at_price | money_without_trailing_zeros }}</span>
+      {%- endif -%}
+    </div>
+    <a href="#product-form" class="btn btn-accent btn-lg lp-final-cta__btn">
+      {% render 'icon', icon: 'check', size: 22 %}
+      Comprar ahora
+    </a>
+    <p class="lp-final-cta__guarantee">
+      {% render 'icon', icon: 'shield', size: 16 %}
+      Garant&iacute;a de devoluci&oacute;n de 30 d&iacute;as &bull; Env&iacute;o seguro
+    </p>
+  </div>
+</section>
+
+{%- comment -%} ========== STICKY MOBILE CTA ========== {%- endcomment -%}
+<div class="lp-sticky-cta" data-sticky-cta>
+  <div class="lp-sticky-cta__inner container-narrow">
+    <div class="lp-sticky-cta__info">
+      <strong class="lp-sticky-cta__name">{{ product.title | truncate: 30 }}</strong>
+      <span class="lp-sticky-cta__price" data-sticky-price>{{ current_variant.price | money_without_trailing_zeros }}</span>
+    </div>
+    <a href="#product-form" class="btn btn-primary btn-sm lp-sticky-cta__btn">Comprar ahora</a>
+  </div>
+</div>
+
+{%- comment -%} Product variant data for JS {%- endcomment -%}
+<script type="application/json" id="ProductJSON-{{ section.id }}">
+  {{ product.variants | json }}
+</script>
+
+{{ 'product.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "Producto Landing Page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_badges",
+      "label": "Mostrar badges",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Mostrar calificación",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Beneficio",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icono (heart, shield, check, star, truck)", "default": "heart" },
+        { "type": "text", "id": "title", "label": "Título", "default": "Beneficio" },
+        { "type": "textarea", "id": "description", "label": "Descripción" }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "name": "Testimonio",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nombre del cliente", "default": "Cliente" },
+        { "type": "textarea", "id": "text", "label": "Testimonio" },
+        { "type": "checkbox", "id": "verified", "label": "Compra verificada", "default": true }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "Pregunta frecuente",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Pregunta" },
+        { "type": "textarea", "id": "answer", "label": "Respuesta" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Producto Landing Page"
+    }
+  ]
+}
+{% endschema %}

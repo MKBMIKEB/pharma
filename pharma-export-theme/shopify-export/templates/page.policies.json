@@ -1,0 +1,1 @@
+{ "name": "Policies", "sections": { "header": { "type": "header" }, "rich-text": { "type": "rich-text" }, "footer": { "type": "footer" } }, "order": ["header", "rich-text", "footer"] }

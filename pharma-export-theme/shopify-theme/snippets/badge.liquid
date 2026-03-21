@@ -1,0 +1,13 @@
+{%- comment -%}
+  Renders product badges based on tags and pricing.
+  Usage: {% render 'badge', product: product %}
+{%- endcomment -%}
+
+{%- if product.tags contains 'badge-new' -%}
+  <span class="badge badge-new">{{ 'badges.new' | t }}</span>
+{%- elsif product.tags contains 'badge-top' -%}
+  <span class="badge badge-top">{{ 'badges.top' | t }}</span>
+{%- elsif product.compare_at_price_max > product.price_min -%}
+  {%- assign discount = product.compare_at_price_max | minus: product.price_min | times: 100 | divided_by: product.compare_at_price_max -%}
+  <span class="badge badge-discount">-{{ discount }}%</span>
+{%- endif -%}

@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "product_main": {
+      "type": "product-main",
+      "settings": {
+        "show_badges": true,
+        "show_rating": true
+      }
+    },
+    "product_tabs": {
+      "type": "product-tabs",
+      "settings": {}
+    },
+    "product_recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "Productos relacionados",
+        "product_count": 4
+      }
+    }
+  },
+  "order": ["product_main", "product_tabs", "product_recommendations"]
+}

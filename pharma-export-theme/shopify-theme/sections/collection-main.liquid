@@ -1,0 +1,343 @@
+{%- comment -%}
+  VitalPlus - Collection Main Section
+  Features: banner, category pills, sort/filter, grid/list toggle,
+  mobile filter drawer, active filter tags, pagination, empty state.
+{%- endcomment -%}
+
+<section class="section-padding" data-collection-section>
+  <div class="container-narrow">
+    {% render 'breadcrumbs' %}
+
+    {%- comment -%} Collection Banner {%- endcomment -%}
+    {%- if section.settings.show_banner and collection.image -%}
+      <div class="collection-banner mb-6">
+        <img
+          src="{{ collection.image | image_url: width: 1400, height: 400, crop: 'center' }}"
+          alt="{{ collection.title | escape }}"
+          width="1400"
+          height="400"
+          loading="eager"
+          class="collection-banner__img"
+        >
+        <div class="collection-banner__overlay"></div>
+        <div class="collection-banner__content">
+          <h1 class="collection-banner__title">{{ collection.title }}</h1>
+          {%- if collection.description != blank -%}
+            <p class="collection-banner__desc">{{ collection.description | strip_html | truncate: 160 }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- else -%}
+      <div class="collection-header">
+        <h1 class="font-display text-3xl font-bold mb-2">{{ collection.title }}</h1>
+        {%- if collection.description != blank -%}
+          <p class="text-muted text-base mb-6">{{ collection.description }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Category Pills {%- endcomment -%}
+    {%- if section.settings.show_category_pills and linklists[section.settings.categories_menu].links.size > 0 -%}
+      <div class="collection-pills mb-6">
+        {%- for link in linklists[section.settings.categories_menu].links -%}
+          <a href="{{ link.url }}" class="pill{% if link.active %} active{% endif %}">
+            {{ link.title }}
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Toolbar: Sort, View Toggle, Filter Toggle (mobile), Count {%- endcomment -%}
+    <div class="collection-toolbar">
+      <div class="collection-toolbar__left">
+        {%- comment -%} Mobile filter toggle {%- endcomment -%}
+        {%- if section.settings.show_filters and collection.filters.size > 0 -%}
+          <button class="btn btn-sm btn-ghost collection-filter-toggle" data-filter-toggle aria-expanded="false" aria-controls="collection-filters">
+            {% render 'icon', icon: 'menu', size: 16 %}
+            <span>{{ 'collection.filter' | t }}</span>
+          </button>
+        {%- endif -%}
+
+        {%- comment -%} Sort dropdown {%- endcomment -%}
+        <div class="collection-sort">
+          <label for="sort-select" class="sr-only">{{ 'collection.sort_by' | t }}</label>
+          <select
+            id="sort-select"
+            class="input select"
+            onchange="window.location.href = this.value"
+          >
+            {%- for option in collection.sort_options -%}
+              <option
+                value="{{ collection.url }}?sort_by={{ option.value }}"
+                {% if collection.sort_by == option.value %}selected{% endif %}
+              >
+                {{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+        </div>
+      </div>
+
+      <div class="collection-toolbar__right">
+        <p class="collection-count text-sm text-muted">
+          {{ 'collection.products_count' | t: count: collection.products_count }}
+        </p>
+
+        {%- comment -%} Grid / List view toggle {%- endcomment -%}
+        {%- if section.settings.show_view_toggle -%}
+          <div class="collection-view-toggle" data-view-toggle>
+            <button class="collection-view-btn active" data-view="grid" aria-label="{{ 'collection.view_grid' | t }}">
+              {% render 'icon', icon: 'grid', size: 16 %}
+            </button>
+            <button class="collection-view-btn" data-view="list" aria-label="{{ 'collection.view_list' | t }}">
+              {% render 'icon', icon: 'list', size: 16 %}
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} Active Filters Tags {%- endcomment -%}
+    {%- assign active_filters_count = 0 -%}
+    {%- for filter in collection.filters -%}
+      {%- assign active_filters_count = active_filters_count | plus: filter.active_values.size -%}
+    {%- endfor -%}
+
+    {%- if active_filters_count > 0 -%}
+      <div class="collection-active-filters mb-4">
+        {%- for filter in collection.filters -%}
+          {%- for value in filter.active_values -%}
+            <a href="{{ value.url_to_remove }}" class="collection-active-filter">
+              <span>{{ filter.label }}: {{ value.label }}</span>
+              {% render 'icon', icon: 'x', size: 12 %}
+            </a>
+          {%- endfor -%}
+        {%- endfor -%}
+
+        <a href="{{ collection.url }}" class="collection-clear-filters">
+          {{ 'collection.clear_all' | t }}
+        </a>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Layout: Sidebar Filters + Product Grid {%- endcomment -%}
+    <div class="collection-layout{% if section.settings.show_filters and collection.filters.size > 0 %} collection-layout--with-sidebar{% endif %}">
+
+      {%- comment -%} Filter Sidebar / Drawer {%- endcomment -%}
+      {%- if section.settings.show_filters and collection.filters.size > 0 -%}
+        <aside class="collection-filters" id="collection-filters" data-collection-filters-panel>
+          <div class="collection-filters__header">
+            <h3 class="collection-filters__title">{{ 'collection.filter' | t }}</h3>
+            <button class="collection-filters__close btn-ghost" data-filter-close aria-label="{{ 'general.close' | t }}">
+              {% render 'icon', icon: 'x', size: 20 %}
+            </button>
+          </div>
+
+          <form data-collection-filters>
+            {%- for filter in collection.filters -%}
+              <div class="collection-filter-group">
+                <details open>
+                  <summary class="collection-filter-group__title">
+                    <span>{{ filter.label }}</span>
+                    <span class="chevron">{% render 'icon', icon: 'chevron-down', size: 14 %}</span>
+                  </summary>
+
+                  <div class="collection-filter-group__options">
+                    {%- if filter.type == 'list' -%}
+                      {%- for value in filter.values -%}
+                        <label class="collection-filter-option{% if value.count == 0 %} disabled{% endif %}">
+                          <input
+                            type="checkbox"
+                            name="{{ filter.param_name }}"
+                            value="{{ value.value }}"
+                            {% if value.active %}checked{% endif %}
+                            {% if value.count == 0 %}disabled{% endif %}
+                            onchange="this.form.submit()"
+                          >
+                          <span class="collection-filter-checkbox"></span>
+                          <span class="collection-filter-label">{{ value.label }}</span>
+                          <span class="collection-filter-count">({{ value.count }})</span>
+                        </label>
+                      {%- endfor -%}
+
+                    {%- elsif filter.type == 'price_range' -%}
+                      <div class="collection-filter-price">
+                        <div class="collection-filter-price__inputs">
+                          <div class="collection-filter-price__field">
+                            <label for="filter-price-min-{{ filter.label | handleize }}" class="sr-only">{{ 'collection.price_min' | t }}</label>
+                            <span class="collection-filter-price__prefix">$</span>
+                            <input
+                              type="number"
+                              id="filter-price-min-{{ filter.label | handleize }}"
+                              class="input"
+                              name="{{ filter.min_value.param_name }}"
+                              value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '' }}"
+                              placeholder="{{ filter.range_min | money_without_currency }}"
+                              min="{{ filter.range_min | money_without_currency | replace: '.', '' | replace: ',', '' }}"
+                              max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '' }}"
+                            >
+                          </div>
+                          <span class="collection-filter-price__sep">—</span>
+                          <div class="collection-filter-price__field">
+                            <label for="filter-price-max-{{ filter.label | handleize }}" class="sr-only">{{ 'collection.price_max' | t }}</label>
+                            <span class="collection-filter-price__prefix">$</span>
+                            <input
+                              type="number"
+                              id="filter-price-max-{{ filter.label | handleize }}"
+                              class="input"
+                              name="{{ filter.max_value.param_name }}"
+                              value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '' }}"
+                              placeholder="{{ filter.range_max | money_without_currency }}"
+                              min="{{ filter.range_min | money_without_currency | replace: '.', '' | replace: ',', '' }}"
+                              max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '' }}"
+                            >
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm w-full mt-2">
+                          {{ 'collection.apply' | t }}
+                        </button>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </details>
+              </div>
+            {%- endfor -%}
+
+            {%- if active_filters_count > 0 -%}
+              <div class="collection-filters__footer">
+                <a href="{{ collection.url }}" class="btn btn-ghost w-full">
+                  {{ 'collection.clear_filters' | t }}
+                </a>
+              </div>
+            {%- endif -%}
+          </form>
+        </aside>
+
+        {%- comment -%} Mobile overlay {%- endcomment -%}
+        <div class="collection-filters-overlay" data-filter-overlay></div>
+      {%- endif -%}
+
+      {%- comment -%} Product Grid {%- endcomment -%}
+      <div class="collection-products">
+        {%- paginate collection.products by section.settings.products_per_page -%}
+          {%- if collection.products.size > 0 -%}
+            <div class="collection-grid" data-collection-grid>
+              {%- for product in collection.products -%}
+                <div class="collection-grid__item animate-fade-in" style="animation-delay: {{ forloop.index0 | times: 50 }}ms">
+                  {% render 'product-card', product: product %}
+                </div>
+              {%- endfor -%}
+            </div>
+
+            {%- comment -%} Pagination {%- endcomment -%}
+            {%- if paginate.pages > 1 -%}
+              <nav class="pagination" aria-label="{{ 'accessibility.pagination' | t }}">
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}" class="pagination__btn" aria-label="{{ 'accessibility.previous' | t }}">
+                    {% render 'icon', icon: 'arrow-left', size: 16 %}
+                  </a>
+                {%- endif -%}
+
+                {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}
+                    <a href="{{ part.url }}" class="pagination__page">{{ part.title }}</a>
+                  {%- else -%}
+                    {%- if part.title == '&hellip;' -%}
+                      <span class="pagination__dots">...</span>
+                    {%- else -%}
+                      <span class="pagination__page current">{{ part.title }}</span>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}" class="pagination__btn" aria-label="{{ 'accessibility.next' | t }}">
+                    {% render 'icon', icon: 'chevron-right', size: 16 %}
+                  </a>
+                {%- endif -%}
+              </nav>
+            {%- endif -%}
+
+          {%- else -%}
+            <div class="empty-state">
+              <div class="empty-state__icon">
+                {% render 'icon', icon: 'search', size: 48 %}
+              </div>
+              <p class="empty-state__title">{{ 'collection.no_products' | t }}</p>
+              <p class="empty-state__text">{{ 'collection.no_products_text' | t }}</p>
+              {%- if active_filters_count > 0 -%}
+                <a href="{{ collection.url }}" class="btn btn-primary">
+                  {{ 'collection.clear_filters' | t }}
+                </a>
+              {%- else -%}
+                <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary">
+                  {{ 'collection.browse_all' | t }}
+                </a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Colección",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner",
+      "label": "Mostrar banner de colección",
+      "info": "Usa la imagen de la colección como banner",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Productos"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Productos por página",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Filtros y controles"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Mostrar filtros",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_toggle",
+      "label": "Mostrar toggle grilla/lista",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category_pills",
+      "label": "Mostrar pills de categorías",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "categories_menu",
+      "label": "Menú de categorías (para pills)",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

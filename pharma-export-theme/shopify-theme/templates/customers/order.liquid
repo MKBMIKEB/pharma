@@ -1,0 +1,71 @@
+<div class="section-padding">
+  <div class="container-narrow" style="max-width: 56rem;">
+    {% render 'breadcrumbs' %}
+
+    <a href="/account" class="cart-continue-link mb-6 inline-flex">
+      {% render 'icon', icon: 'arrow-left', size: 14 %}
+      {{ 'customer.back_to_account' | t }}
+    </a>
+
+    <div class="account-header mb-8">
+      <div>
+        <h1 class="font-display text-3xl font-bold mb-1">{{ 'customer.order_number' | t }} {{ order.name }}</h1>
+        <p class="text-sm text-muted">{{ order.created_at | date: "%d/%m/%Y %H:%M" }}</p>
+      </div>
+      <span class="badge {% if order.fulfillment_status == 'fulfilled' %}badge-new{% else %}badge-top{% endif %}">
+        {{ order.fulfillment_status_label }}
+      </span>
+    </div>
+
+    {%- comment -%} Order Items {%- endcomment -%}
+    <div class="account-order-items mb-8">
+      {%- for line_item in order.line_items -%}
+        <div class="account-order-item">
+          <div class="account-order-item__image">
+            {%- if line_item.image -%}
+              <img src="{{ line_item.image | image_url: width: 120 }}" alt="{{ line_item.title | escape }}" width="60" height="60" loading="lazy">
+            {%- else -%}
+              <div class="placeholder-circle green-gradient" style="width:2.5rem;height:2.5rem;opacity:0.15"></div>
+            {%- endif -%}
+          </div>
+          <div class="account-order-item__info">
+            <a href="{{ line_item.url }}" class="font-semibold text-sm">{{ line_item.title }}</a>
+            {%- if line_item.variant.title != 'Default Title' -%}
+              <span class="text-xs text-muted">{{ line_item.variant.title }}</span>
+            {%- endif -%}
+            <span class="text-xs text-muted">{{ 'product.quantity' | t }}: {{ line_item.quantity }}</span>
+          </div>
+          <div class="account-order-item__price font-semibold text-sm">
+            {{ line_item.final_line_price | money_without_trailing_zeros }}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Order Summary {%- endcomment -%}
+    <div class="order-summary" style="max-width: 22rem; margin-left: auto;">
+      <h3 class="order-summary__heading">{{ 'cart.order_summary' | t }}</h3>
+
+      <div class="order-summary__row">
+        <span>{{ 'cart.subtotal' | t }}</span>
+        <span>{{ order.subtotal_price | money_without_trailing_zeros }}</span>
+      </div>
+      {%- for shipping_method in order.shipping_methods -%}
+        <div class="order-summary__row">
+          <span>{{ 'cart.shipping' | t }} ({{ shipping_method.title }})</span>
+          <span>{{ shipping_method.price | money_without_trailing_zeros }}</span>
+        </div>
+      {%- endfor -%}
+      {%- if order.tax_price > 0 -%}
+        <div class="order-summary__row">
+          <span>{{ 'customer.tax' | t }}</span>
+          <span>{{ order.tax_price | money_without_trailing_zeros }}</span>
+        </div>
+      {%- endif -%}
+      <div class="order-summary__row order-summary__total">
+        <span>{{ 'cart.total' | t }}</span>
+        <span>{{ order.total_price | money_without_trailing_zeros }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+{%- comment -%}
+  VitalPlus - Search Results Section
+  Features: breadcrumbs, search input with button, result type labels, pagination.
+{%- endcomment -%}
+
+<section class="section-padding">
+  <div class="container-narrow">
+    {% render 'breadcrumbs' %}
+
+    <h1 class="font-display text-3xl font-bold text-center mb-8">{{ 'search.title' | t }}</h1>
+
+    {%- comment -%} Search Form {%- endcomment -%}
+    <div class="search-form">
+      {% form 'search' %}
+        <div class="search-form__inner">
+          <input
+            type="search"
+            name="q"
+            value="{{ search.terms | escape }}"
+            class="search-input"
+            placeholder="{{ 'search.placeholder' | t }}"
+            autofocus
+          >
+          <button type="submit" class="btn btn-primary search-form__btn" aria-label="{{ 'header.search' | t }}">
+            {% render 'icon', icon: 'search', size: 20 %}
+          </button>
+        </div>
+      {% endform %}
+    </div>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <p class="text-sm text-muted text-center mb-8">
+          {{ 'search.results_count' | t: count: search.results_count, terms: search.terms }}
+        </p>
+
+        {%- paginate search.results by 12 -%}
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {%- for item in search.results -%}
+              {%- if item.object_type == 'product' -%}
+                {% render 'product-card', product: item %}
+
+              {%- elsif item.object_type == 'article' -%}
+                <article class="blog-card">
+                  {%- if item.image -%}
+                    <a href="{{ item.url }}" class="blog-card__image-link">
+                      <img
+                        src="{{ item.image | image_url: width: 600, height: 360, crop: 'center' }}"
+                        alt="{{ item.title | escape }}"
+                        width="600"
+                        height="360"
+                        loading="lazy"
+                        class="blog-card__img"
+                      >
+                    </a>
+                  {%- endif -%}
+                  <div class="blog-card__content">
+                    <span class="search-result-type">{{ 'search.type_article' | t }}</span>
+                    <h3 class="blog-card__title">
+                      <a href="{{ item.url }}">{{ item.title }}</a>
+                    </h3>
+                    <p class="blog-card__excerpt">{{ item.content | strip_html | truncate: 120 }}</p>
+                  </div>
+                </article>
+
+              {%- elsif item.object_type == 'page' -%}
+                <div class="card p-4">
+                  <span class="search-result-type">{{ 'search.type_page' | t }}</span>
+                  <h3 class="font-display font-semibold mb-2">
+                    <a href="{{ item.url }}">{{ item.title }}</a>
+                  </h3>
+                  <p class="text-sm text-muted">{{ item.content | strip_html | truncate: 120 }}</p>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="pagination" aria-label="{{ 'accessibility.pagination' | t }}">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="pagination__btn">
+                  {% render 'icon', icon: 'arrow-left', size: 16 %}
+                </a>
+              {%- endif -%}
+
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="pagination__page">{{ part.title }}</a>
+                {%- else -%}
+                  {%- if part.title == '&hellip;' -%}
+                    <span class="pagination__dots">...</span>
+                  {%- else -%}
+                    <span class="pagination__page current">{{ part.title }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="pagination__btn">
+                  {% render 'icon', icon: 'chevron-right', size: 16 %}
+                </a>
+              {%- endif -%}
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+
+      {%- else -%}
+        <div class="empty-state">
+          <div class="empty-state__icon">
+            {% render 'icon', icon: 'search', size: 48 %}
+          </div>
+          <p class="empty-state__title">{{ 'search.no_results' | t }}</p>
+          <p class="empty-state__text">{{ 'search.no_results_text' | t }}</p>
+          <a href="/collections/all" class="btn btn-primary">{{ 'search.browse_products' | t }}</a>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Resultados de Búsqueda",
+  "settings": []
+}
+{% endschema %}

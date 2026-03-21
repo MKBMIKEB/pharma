@@ -1,0 +1,74 @@
+{
+  "sections": {
+    "hero_banner": {
+      "type": "hero-banner",
+      "settings": {
+        "subtitle": "Suplementos Premium",
+        "heading": "Tu salud merece lo mejor",
+        "heading_accent": "lo mejor",
+        "description": "Descubre nuestra línea de suplementos de grado farmacéutico, formulados con los más altos estándares de calidad para tu bienestar diario.",
+        "cta1_text": "Ver suplementos",
+        "cta1_url": "/collections/all",
+        "cta2_text": "Comprar ahora",
+        "cta2_url": "/collections/salud-masculina",
+        "overlay_opacity": 60
+      }
+    },
+    "featured_categories": {
+      "type": "featured-categories",
+      "settings": {
+        "heading": "Nuestras Categorías",
+        "subheading": "Encuentra el suplemento ideal para ti"
+      },
+      "blocks": {
+        "cat_1": { "type": "category", "settings": { "title": "Salud Masculina", "icon": "shield" } },
+        "cat_2": { "type": "category", "settings": { "title": "Energía", "icon": "zap" } },
+        "cat_3": { "type": "category", "settings": { "title": "Vitaminas", "icon": "pill" } },
+        "cat_4": { "type": "category", "settings": { "title": "Sueño", "icon": "moon" } },
+        "cat_5": { "type": "category", "settings": { "title": "Inmunidad", "icon": "heart" } }
+      },
+      "block_order": ["cat_1", "cat_2", "cat_3", "cat_4", "cat_5"]
+    },
+    "best_sellers": {
+      "type": "best-sellers",
+      "settings": {
+        "heading": "Los Más Vendidos",
+        "subheading": "Nuestros suplementos más populares",
+        "product_count": 4
+      }
+    },
+    "value_props": {
+      "type": "value-props",
+      "settings": {},
+      "blocks": {
+        "vp_1": { "type": "prop", "settings": { "icon": "shield-check", "title": "Calidad certificada", "description": "Ingredientes de grado farmacéutico con certificación de calidad." } },
+        "vp_2": { "type": "prop", "settings": { "icon": "truck", "title": "Envío rápido", "description": "Entrega en 2-5 días hábiles a todo Colombia." } },
+        "vp_3": { "type": "prop", "settings": { "icon": "headphones", "title": "Soporte experto", "description": "Atención personalizada por WhatsApp y correo." } },
+        "vp_4": { "type": "prop", "settings": { "icon": "leaf", "title": "Ingredientes naturales", "description": "Fórmulas con ingredientes de origen natural." } }
+      },
+      "block_order": ["vp_1", "vp_2", "vp_3", "vp_4"]
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "heading": "Lo que dicen nuestros clientes",
+        "subheading": "Experiencias reales de personas que confían en VitalPlus",
+        "disclaimer": "Resultados individuales pueden variar. Estos testimonios no constituyen consejo médico."
+      },
+      "blocks": {
+        "t_1": { "type": "testimonial", "settings": { "author": "Carlos M.", "text": "He notado un cambio positivo en mi bienestar general. La calidad de VitalPlus es excepcional.", "rating": 5 } },
+        "t_2": { "type": "testimonial", "settings": { "author": "Andrea L.", "text": "El Multivitamínico Diario me ha dado más energía. Lo recomiendo totalmente.", "rating": 5 } },
+        "t_3": { "type": "testimonial", "settings": { "author": "Jorge P.", "text": "El Magnesio + Zinc mejoró mi calidad de sueño notablemente. Excelente producto.", "rating": 5 } }
+      },
+      "block_order": ["t_1", "t_2", "t_3"]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Recibe ofertas exclusivas",
+        "subheading": "Suscríbete y obtén un 10% de descuento en tu primera compra."
+      }
+    }
+  },
+  "order": ["hero_banner", "featured_categories", "best_sellers", "value_props", "testimonials", "newsletter"]
+}
