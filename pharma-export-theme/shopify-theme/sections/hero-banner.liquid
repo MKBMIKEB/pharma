@@ -1,4 +1,4 @@
-<section class="hero" data-hero>
+<section class="hero{% if section.settings.style == 'neon' %} hero--neon{% endif %}" data-hero>
   {%- assign slide_blocks = section.blocks | where: "type", "slide" -%}
 
   {%- if slide_blocks.size > 0 -%}
@@ -13,15 +13,63 @@
           >
         </div>
       {%- endfor -%}
-      {%- if slide_blocks.size > 1 -%}
-        <div class="hero__carousel-dots">
-          {%- for block in slide_blocks -%}
-            <button class="hero__carousel-dot {% if forloop.first %}is-active{% endif %}" data-slide-index="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}"></button>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
     </div>
     <div class="hero__overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+    {%- if slide_blocks.size > 1 -%}
+      <button class="hero__carousel-arrow hero__carousel-arrow--prev" data-carousel-prev aria-label="Slide anterior">
+        {% render 'icon', icon: 'arrow-left', size: 20 %}
+      </button>
+      <button class="hero__carousel-arrow hero__carousel-arrow--next" data-carousel-next aria-label="Siguiente slide">
+        {% render 'icon', icon: 'arrow-right', size: 20 %}
+      </button>
+      <div class="hero__carousel-dots">
+        {%- for block in slide_blocks -%}
+          <button class="hero__carousel-dot {% if forloop.first %}is-active{% endif %}" data-slide-index="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- elsif section.settings.style == 'neon' -%}
+    {%- if section.settings.hero_image != blank -%}
+      <img
+        class="hero__bg-image"
+        src="{{ section.settings.hero_image | image_url: width: 1920 }}"
+        alt="{{ section.settings.hero_image.alt | default: 'Carrito de compras tecnológico' | escape }}"
+        width="1920"
+        height="{{ 1920 | divided_by: section.settings.hero_image.aspect_ratio }}"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {%- else -%}
+      {%- assign neon_slides = "hero-cart-neon.png|Carrito de compras tecnológico,hero-pets-banner.png|Todo lo que tu mascota necesita,hero-hogar-banner.png|Todo lo que tu hogar necesita" | split: "," -%}
+      <div class="hero__carousel" data-hero-carousel>
+        {%- for slide in neon_slides -%}
+          {%- assign slide_parts = slide | split: "|" -%}
+          <div class="hero__slide {% if forloop.first %}is-active{% endif %}">
+            <img
+              src="{{ slide_parts[0] | asset_url }}"
+              alt="{{ slide_parts[1] }}"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              {% if forloop.first %}fetchpriority="high"{% endif %}
+            >
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    <canvas class="hero__particles" data-hero-particles aria-hidden="true"></canvas>
+    <div class="hero__overlay hero__overlay--neon"></div>
+    {%- if neon_slides.size > 1 -%}
+      <button class="hero__carousel-arrow hero__carousel-arrow--prev" data-carousel-prev aria-label="Slide anterior">
+        {% render 'icon', icon: 'arrow-left', size: 20 %}
+      </button>
+      <button class="hero__carousel-arrow hero__carousel-arrow--next" data-carousel-next aria-label="Siguiente slide">
+        {% render 'icon', icon: 'arrow-right', size: 20 %}
+      </button>
+      <div class="hero__carousel-dots">
+        {%- for slide in neon_slides -%}
+          <button class="hero__carousel-dot {% if forloop.first %}is-active{% endif %}" data-slide-index="{{ forloop.index0 }}" aria-label="Slide {{ forloop.index }}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   {%- elsif section.settings.background_image -%}
     <img
       class="hero__bg-image"
@@ -93,7 +141,9 @@
     </div>
 
     <div class="hero__visual">
-      {%- if section.settings.hero_product != blank -%}
+      {%- if section.settings.style == 'neon' -%}
+        {%- comment -%} Imagen de fondo del hero neón; esta columna queda vacía a propósito (ver .hero--neon .hero__visual en theme.css) {%- endcomment -%}
+      {%- elsif section.settings.hero_product != blank -%}
         <div class="hero__product-card">
           <a href="{{ section.settings.hero_product.url }}">
             <img
@@ -138,10 +188,12 @@
   var carousel = document.querySelector('[data-hero-carousel]');
   if (!carousel) return;
 
+  var heroSection = carousel.parentElement;
   var slides = carousel.querySelectorAll('.hero__slide');
-  var dots = carousel.querySelectorAll('.hero__carousel-dot');
+  var dots = heroSection.querySelectorAll('.hero__carousel-dot');
   if (slides.length <= 1) return;
 
+  var heroContent = heroSection.querySelector('.hero__content');
   var current = 0;
   var interval = {{ section.settings.slide_interval | default: 5 }} * 1000;
   var timer;
@@ -152,10 +204,15 @@
     current = index;
     slides[current].classList.add('is-active');
     if (dots[current]) dots[current].classList.add('is-active');
+    if (heroContent) heroContent.classList.toggle('is-hidden', current !== 0);
   }
 
   function next() {
     goTo((current + 1) % slides.length);
+  }
+
+  function prev() {
+    goTo((current - 1 + slides.length) % slides.length);
   }
 
   function startAutoplay() {
@@ -170,6 +227,23 @@
     });
   });
 
+  var prevBtn = heroSection.querySelector('[data-carousel-prev]');
+  var nextBtn = heroSection.querySelector('[data-carousel-next]');
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function() {
+      clearInterval(timer);
+      prev();
+      startAutoplay();
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function() {
+      clearInterval(timer);
+      next();
+      startAutoplay();
+    });
+  }
+
   startAutoplay();
 })();
 </script>
@@ -178,6 +252,22 @@
 {
   "name": "Banner Principal",
   "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Estilo del banner",
+      "options": [
+        { "value": "classic", "label": "Clásico (verde/dorado)" },
+        { "value": "neon", "label": "Neón (portada nueva)" }
+      ],
+      "default": "classic"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Imagen de fondo (estilo Neón)",
+      "info": "Se usa solo con el estilo Neón, como fondo completo del banner. Si no se sube ninguna, se usa la imagen por defecto del tema (assets/hero-cart-neon.png)"
+    },
     {
       "type": "image_picker",
       "id": "background_image",

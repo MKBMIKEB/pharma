@@ -14,6 +14,7 @@
           {%- endif -%}
         </div>
         <p class="footer__brand-desc">{{ section.settings.brand_description }}</p>
+        <a href="{{ section.settings.vitaplus_url | default: '/pages/vitaplus' }}" class="footer__vitaplus-link">Vita Plus</a>
       </div>
 
       {%- comment -%} Menu Columns {%- endcomment -%}
@@ -58,6 +59,12 @@
       "id": "brand_description",
       "label": "Descripción de la marca",
       "default": "Suplementos de salud de calidad premium. Tu bienestar, nuestra prioridad."
+    },
+    {
+      "type": "url",
+      "id": "vitaplus_url",
+      "label": "URL del enlace Vita Plus",
+      "info": "Por defecto va a /pages/vitaplus"
     }
   ],
   "blocks": [

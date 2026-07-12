@@ -12,7 +12,7 @@
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 gap-6">
       {%- for product in featured_collection.products limit: product_limit -%}
-        {% render 'product-card', product: product %}
+        {% render 'product-card', product: product, index: forloop.index0 %}
       {%- else -%}
         {%- for i in (1..product_limit) -%}
           <div class="product-card" style="min-height: 300px;">

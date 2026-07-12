@@ -850,6 +850,11 @@ textarea.input { resize: vertical; min-height: 8rem; }
   align-items: center;
   padding-top: 3rem;
   padding-bottom: 3rem;
+  transition: opacity 0.4s ease;
+}
+.hero__content.is-hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 @media (min-width: 768px) {
   .hero__content {
@@ -882,11 +887,13 @@ textarea.input { resize: vertical; min-height: 8rem; }
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 2.25rem;
-  line-height: 1.1;
+  line-height: 1.2;
   margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  overflow: visible;
+  color: inherit;
 }
 @media (min-width: 768px) {
   .hero__heading { font-size: 3rem; }
@@ -902,6 +909,9 @@ textarea.input { resize: vertical; min-height: 8rem; }
   background-clip: text;
   font-style: italic;
   animation: shimmer 4s linear infinite;
+  padding-right: 0.15em;
+  padding-bottom: 0.1em;
+  display: inline-block;
 }
 @keyframes shimmer {
   0% { background-position: 0% center; }
@@ -1109,9 +1119,49 @@ textarea.input { resize: vertical; min-height: 8rem; }
   bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 15;
+  z-index: 20;
   display: flex;
   gap: 0.5rem;
+}
+.hero__carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6,8,23,0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.hero__carousel-arrow:hover {
+  background: rgba(6,8,23,0.65);
+  border-color: rgba(255,255,255,0.5);
+}
+.hero__carousel-arrow:active { transform: translateY(-50%) scale(0.92); }
+.hero__carousel-arrow--prev { left: 1rem; }
+.hero__carousel-arrow--next { right: 1rem; }
+@media (min-width: 768px) {
+  .hero__carousel-arrow { width: 3rem; height: 3rem; }
+  .hero__carousel-arrow--prev { left: 1.5rem; }
+  .hero__carousel-arrow--next { right: 1.5rem; }
+}
+body.template-index .hero--neon .hero__carousel-arrow {
+  background: rgba(16,21,58,0.5);
+  border-color: rgba(0,229,255,0.3);
+}
+body.template-index .hero--neon .hero__carousel-arrow:hover {
+  background: rgba(16,21,58,0.75);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 16px rgba(0,229,255,0.35);
 }
 .hero__carousel-dot {
   width: 10px;
@@ -3801,3 +3851,378 @@ textarea.input { resize: vertical; min-height: 8rem; }
   .lp-final-cta__price-current { font-size: 2rem; }
   .lp-final-cta__btn { width: 100%; justify-content: center; }
 }
+
+/* ============================================
+   Home Neón (portada nueva) — todo scoped a
+   body.template-index. No afecta ninguna otra
+   página del sitio, incluida /pages/vitaplus.
+   ============================================ */
+body.template-index {
+  --neon-bg: #060817;
+  --neon-bg-2: #10153A;
+  --neon-cyan: #00E5FF;
+  --neon-blue: #377DFF;
+  --neon-violet: #7A5CFF;
+  --neon-purple: #B026FF;
+  --neon-magenta: #FF2EC4;
+  --neon-white: #F7F8FF;
+  --neon-text-muted: #B8BDDB;
+  --neon-gradient: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 30%, var(--neon-violet) 55%, var(--neon-purple) 75%, var(--neon-magenta) 100%);
+  background-color: var(--neon-bg);
+}
+body.template-index main { background-color: var(--neon-bg); }
+
+body.template-index .section-heading { color: var(--neon-white); }
+body.template-index .section-subheading { color: var(--neon-text-muted); }
+
+/* --- Hero neón --- */
+body.template-index .hero--neon {
+  min-height: 62vh;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(0,229,255,0.14) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(176,38,255,0.14) 0%, transparent 45%),
+    radial-gradient(circle at 50% 95%, rgba(255,46,196,0.1) 0%, transparent 50%),
+    linear-gradient(160deg, var(--neon-bg) 0%, var(--neon-bg-2) 60%, var(--neon-bg) 100%);
+}
+body.template-index .hero--neon::after {
+  background-image: radial-gradient(rgba(247,248,255,0.05) 1px, transparent 1px);
+}
+
+body.template-index .hero--neon .hero__tag {
+  color: var(--neon-cyan);
+  background: rgba(0,229,255,0.1);
+  border-color: rgba(0,229,255,0.3);
+}
+body.template-index .hero--neon .hero__accent {
+  background: var(--neon-gradient);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+body.template-index .hero--neon .hero__desc { color: var(--neon-text-muted); opacity: 1; }
+body.template-index .hero--neon .hero__social-text span { color: var(--neon-text-muted); opacity: 1; }
+
+body.template-index .hero--neon .hero__cta-primary {
+  background: var(--neon-gradient);
+  background-size: 200% auto;
+  color: var(--neon-white);
+  box-shadow: 0 0 24px rgba(122,92,255,0.45);
+  transition: background-position 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+body.template-index .hero--neon .hero__cta-primary:hover {
+  background-position: 100% center;
+  transform: translateY(-2px);
+  box-shadow: 0 0 32px rgba(176,38,255,0.55);
+}
+body.template-index .hero--neon .btn-outline-light {
+  border-color: rgba(247,248,255,0.35);
+  color: var(--neon-white);
+}
+body.template-index .hero--neon .btn-outline-light:hover {
+  background: rgba(247,248,255,0.08);
+  border-color: var(--neon-cyan);
+}
+
+/* La imagen del carrito es el fondo completo del hero (full-bleed), no una tarjeta flotante */
+.hero__overlay--neon {
+  background:
+    radial-gradient(circle at 85% 45%, rgba(0,229,255,0.10) 0%, transparent 45%),
+    linear-gradient(100deg, rgba(6,8,23,0.94) 0%, rgba(6,8,23,0.82) 30%, rgba(16,21,58,0.55) 55%, rgba(16,21,58,0.18) 78%, rgba(6,8,23,0.32) 100%),
+    linear-gradient(to top, rgba(6,8,23,0.55) 0%, transparent 22%, transparent 78%, rgba(6,8,23,0.4) 100%);
+}
+/* En el estilo neón esta columna queda vacía (el fondo ya trae la imagen); se colapsa para que el texto ocupe todo el ancho */
+body.template-index .hero--neon .hero__visual { display: none; }
+body.template-index .hero--neon .hero__content { grid-template-columns: 1fr; }
+body.template-index .hero--neon .hero__desc { max-width: 34rem; }
+
+/* El título va arriba y en una sola línea, para no chocar con el contenido del slide de fondo */
+@media (min-width: 768px) {
+  body.template-index .hero--neon { align-items: flex-start; }
+  body.template-index .hero--neon .hero__content { padding-top: 6.5rem; padding-bottom: 3rem; }
+  body.template-index .hero--neon .hero__heading {
+    white-space: nowrap;
+    font-size: clamp(1.25rem, 2.4vw, 2.25rem);
+  }
+}
+
+/* --- Categorías --- */
+.featured-categories { position: relative; overflow: hidden; }
+.featured-categories__spline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+.featured-categories__spline.is-loaded { opacity: 0.9; }
+.featured-categories__inner { position: relative; z-index: 1; }
+
+/* Layout lateral: en la home neón, título y categorías se corren a los bordes
+   para dejar el centro de la sección abierto y que el personaje 3D sea protagonista */
+@media (min-width: 768px) {
+  body.template-index .featured-categories { min-height: 320px; display: flex; align-items: center; }
+  body.template-index .featured-categories__inner {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+  body.template-index .featured-categories__header {
+    max-width: 320px;
+    flex-shrink: 0;
+  }
+  body.template-index .featured-categories__header .section-heading,
+  body.template-index .featured-categories__header .section-subheading {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  body.template-index .featured-categories__grid {
+    flex-shrink: 0;
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  /* Tarjetas compactas: la lista lateral no debe alargar la sección */
+  body.template-index .featured-categories__grid .category-card {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+  }
+  body.template-index .featured-categories__grid .category-card__icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  body.template-index .featured-categories__grid .category-card__icon svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+  body.template-index .featured-categories__grid .category-card h3 {
+    font-size: 0.8125rem;
+  }
+}
+
+body.template-index .category-card {
+  background: linear-gradient(var(--neon-bg-2), var(--neon-bg-2)) padding-box,
+              var(--neon-gradient) border-box;
+  border: 1px solid transparent;
+  color: var(--neon-white);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+body.template-index .category-card:hover {
+  box-shadow: 0 0 24px rgba(122,92,255,0.35);
+  transform: translateY(-4px);
+}
+body.template-index .category-card__icon { background: rgba(0,229,255,0.1); }
+body.template-index .category-card__icon svg { color: var(--neon-cyan); }
+body.template-index .category-card h3 { color: var(--neon-white); }
+
+/* --- Productos destacados --- */
+body.template-index .product-card {
+  background-color: var(--neon-bg-2);
+  border: 1px solid rgba(184,189,219,0.15);
+}
+body.template-index .product-card:hover {
+  box-shadow: 0 0 24px rgba(0,229,255,0.25);
+  border-color: rgba(0,229,255,0.35);
+}
+body.template-index .product-card__image { background-color: rgba(255,255,255,0.03); }
+body.template-index .product-card__category,
+body.template-index .product-card__desc { color: var(--neon-text-muted); }
+body.template-index .product-card__title,
+body.template-index .product-card__title a,
+body.template-index .product-card__price { color: var(--neon-white); }
+body.template-index .product-card .btn-primary {
+  background: var(--neon-gradient);
+  background-size: 200% auto;
+}
+body.template-index .product-card .btn-primary:hover { background-position: 100% center; }
+
+/* --- Beneficios de compra (value props) --- */
+body.template-index .value-prop__icon { background: rgba(122,92,255,0.12); }
+body.template-index .value-prop__icon svg { color: var(--neon-violet); }
+body.template-index .value-prop__title { color: var(--neon-white); }
+body.template-index .value-prop__desc { color: var(--neon-text-muted); }
+
+/* --- Destacado Vita Plus --- */
+body.template-index .vitaplus-feature {
+  background: linear-gradient(135deg, rgba(0,229,255,0.06) 0%, rgba(176,38,255,0.06) 100%), var(--neon-bg-2);
+  border-top: 1px solid rgba(184,189,219,0.1);
+  border-bottom: 1px solid rgba(184,189,219,0.1);
+}
+body.template-index .vitaplus-feature__inner {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  body.template-index .vitaplus-feature__inner { grid-template-columns: 0.9fr 1.1fr; }
+}
+body.template-index .vitaplus-feature__visual img {
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 0 32px rgba(122,92,255,0.25);
+}
+body.template-index .vitaplus-feature__badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(184,189,219,0.15);
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--neon-white);
+}
+body.template-index .vitaplus-feature .hero__tag {
+  color: var(--neon-magenta);
+  background: rgba(255,46,196,0.1);
+  border-color: rgba(255,46,196,0.3);
+}
+body.template-index .vitaplus-feature .section-heading { text-align: left; margin-bottom: 1rem; }
+body.template-index .vitaplus-feature__desc {
+  color: var(--neon-text-muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+body.template-index .vitaplus-feature .btn-primary {
+  background: var(--neon-gradient);
+  background-size: 200% auto;
+  box-shadow: 0 0 20px rgba(122,92,255,0.4);
+}
+body.template-index .vitaplus-feature .btn-primary:hover { background-position: 100% center; }
+
+/* --- CTA final --- */
+body.template-index .final-cta {
+  background: linear-gradient(135deg, var(--neon-bg) 0%, var(--neon-bg-2) 100%);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+body.template-index .final-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(176,38,255,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+body.template-index .final-cta__inner { position: relative; z-index: 1; }
+body.template-index .final-cta__heading {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--neon-white);
+  margin-bottom: 0.75rem;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 768px) {
+  body.template-index .final-cta__heading { font-size: 2.25rem; }
+}
+body.template-index .final-cta__subheading {
+  color: var(--neon-text-muted);
+  margin-bottom: 2rem;
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+body.template-index .final-cta .btn-accent {
+  background: var(--neon-gradient);
+  background-size: 200% auto;
+  color: var(--neon-white);
+  box-shadow: 0 0 24px rgba(255,46,196,0.35);
+}
+body.template-index .final-cta .btn-accent:hover { background-position: 100% center; }
+
+/* --- Newsletter en la home neón --- */
+body.template-index .newsletter { background-color: var(--neon-bg-2); }
+
+/* --- Header + barra de anuncio: neón solo en la home, verde clásico en el resto (incl. /pages/vitaplus) --- */
+body.template-index .announcement-bar {
+  background: var(--neon-gradient) !important;
+  background-size: 200% auto;
+  color: var(--neon-white) !important;
+}
+body.template-index .header {
+  background-color: rgba(6,8,23,0.85);
+  border-bottom: 1px solid rgba(184,189,219,0.15);
+}
+body.template-index .header__logo-icon { background: var(--neon-gradient); }
+body.template-index .header__logo-text { color: var(--neon-white); }
+body.template-index .header__nav a { color: var(--neon-text-muted); }
+body.template-index .header__nav a:hover,
+body.template-index .header__nav a.active { color: var(--neon-white); }
+body.template-index .header .btn-ghost { color: var(--neon-text-muted); }
+body.template-index .header .btn-ghost:hover { color: var(--neon-white); }
+body.template-index .header__cart-count {
+  background: var(--neon-gradient);
+  color: var(--neon-white);
+}
+body.template-index .mobile-menu {
+  background-color: var(--neon-bg-2);
+  border-top: 1px solid rgba(184,189,219,0.15);
+}
+body.template-index .mobile-menu__inner a { color: var(--neon-white); }
+
+/* Link "Vita Plus" destacado en header y footer, en todas las páginas */
+.header__vitaplus-link {
+  font-weight: 700 !important;
+  color: var(--color-accent) !important;
+}
+body.template-index .header__vitaplus-link { color: var(--neon-magenta) !important; }
+
+/* --- Link "Vita Plus" en el footer (global, todas las páginas) --- */
+.footer__vitaplus-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* --- Scroll reveal (todas las páginas) --- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { transition: none; opacity: 1; transform: none; }
+}
+
+/* --- Starfield de partículas + tilt del hero neón --- */
+.hero__particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+body.template-index .hero--neon .hero__bg-image {
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+/* --- Botones magnéticos (CTAs de la home) --- */
+body.template-index .hero__cta-primary,
+body.template-index .vitaplus-feature .btn-primary,
+body.template-index .final-cta .btn-accent {
+  will-change: transform;
+}
+

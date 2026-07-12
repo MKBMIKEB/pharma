@@ -11,9 +11,9 @@
         >
       {%- else -%}
         <div class="header__logo-icon green-gradient">
-          <span>V+</span>
+          <span>N</span>
         </div>
-        <span class="header__logo-text">{{ shop.name }}</span>
+        <span class="header__logo-text">NovaTrend</span>
       {%- endif -%}
     </a>
 
@@ -24,6 +24,7 @@
           {{ link.title }}
         </a>
       {%- endfor -%}
+      <a href="{{ section.settings.vitaplus_url | default: '/pages/novatrend' }}" class="header__vitaplus-link">NovaTrend</a>
     </nav>
 
     {%- comment -%} Action buttons {%- endcomment -%}
@@ -63,6 +64,7 @@
       {%- for link in linklists[section.settings.menu].links -%}
         <a href="{{ link.url }}">{{ link.title }}</a>
       {%- endfor -%}
+      <a href="{{ section.settings.vitaplus_url | default: '/pages/novatrend' }}" class="header__vitaplus-link">NovaTrend</a>
     </div>
   </nav>
 </header>
@@ -88,6 +90,12 @@
       "id": "menu",
       "label": "Menú de navegación",
       "default": "main-menu"
+    },
+    {
+      "type": "url",
+      "id": "vitaplus_url",
+      "label": "URL del enlace NovaTrend",
+      "info": "Por defecto va a /pages/novatrend"
     },
     {
       "type": "checkbox",

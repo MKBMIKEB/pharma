@@ -3,14 +3,15 @@
     "hero_banner": {
       "type": "hero-banner",
       "settings": {
-        "subtitle": "Suplementos Premium",
-        "heading": "Tu salud merece lo mejor",
-        "heading_accent": "lo mejor",
-        "description": "Descubre nuestra línea de suplementos de grado farmacéutico, formulados con los más altos estándares de calidad para tu bienestar diario.",
-        "cta1_text": "Ver suplementos",
+        "style": "neon",
+        "subtitle": "Una nueva experiencia de compra",
+        "heading": "Todo lo que buscas, en una experiencia que inspira",
+        "heading_accent": "que inspira",
+        "description": "Descubre tecnología, bienestar, tendencias y productos seleccionados para transformar tu día a día.",
+        "cta1_text": "Explorar la tienda",
         "cta1_url": "/collections/all",
-        "cta2_text": "Comprar ahora",
-        "cta2_url": "/collections/salud-masculina",
+        "cta2_text": "Descubrir Vita Plus",
+        "cta2_url": "/pages/vitaplus",
         "overlay_opacity": 60
       }
     },
@@ -18,22 +19,33 @@
       "type": "featured-categories",
       "settings": {
         "heading": "Nuestras Categorías",
-        "subheading": "Encuentra el suplemento ideal para ti"
+        "subheading": "Encuentra lo que buscas en un solo lugar"
       },
       "blocks": {
-        "cat_1": { "type": "category", "settings": { "title": "Salud Masculina", "icon": "shield" } },
-        "cat_2": { "type": "category", "settings": { "title": "Energía", "icon": "zap" } },
-        "cat_3": { "type": "category", "settings": { "title": "Vitaminas", "icon": "pill" } },
-        "cat_4": { "type": "category", "settings": { "title": "Sueño", "icon": "moon" } },
-        "cat_5": { "type": "category", "settings": { "title": "Inmunidad", "icon": "heart" } }
+        "cat_1": { "type": "category", "settings": { "title": "Tecnología", "icon": "zap" } },
+        "cat_2": { "type": "category", "settings": { "title": "Bienestar", "icon": "heart" } },
+        "cat_3": { "type": "category", "settings": { "title": "Belleza", "icon": "star" } },
+        "cat_4": { "type": "category", "settings": { "title": "Hogar", "icon": "package" } },
+        "cat_5": { "type": "category", "settings": { "title": "Accesorios", "icon": "shopping-bag" } },
+        "cat_6": { "type": "category", "settings": { "title": "Tendencias", "icon": "award" } }
       },
-      "block_order": ["cat_1", "cat_2", "cat_3", "cat_4", "cat_5"]
+      "block_order": ["cat_1", "cat_2", "cat_3", "cat_4", "cat_5", "cat_6"]
+    },
+    "vitaplus_feature": {
+      "type": "vitaplus-feature",
+      "settings": {
+        "eyebrow": "Nuestra línea de bienestar",
+        "heading": "Bienestar que acompaña tu ritmo",
+        "description": "Conoce Vita Plus, nuestra selección de productos pensados para complementar tus hábitos y tu bienestar diario.",
+        "button_url": "/pages/vitaplus",
+        "button_text": "Ir a Vita Plus"
+      }
     },
     "best_sellers": {
       "type": "best-sellers",
       "settings": {
-        "heading": "Los Más Vendidos",
-        "subheading": "Nuestros suplementos más populares",
+        "heading": "Productos Destacados",
+        "subheading": "Selección pensada para ti",
         "product_count": 4
       }
     },
@@ -41,26 +53,21 @@
       "type": "value-props",
       "settings": {},
       "blocks": {
-        "vp_1": { "type": "prop", "settings": { "icon": "shield-check", "title": "Calidad certificada", "description": "Ingredientes de grado farmacéutico con certificación de calidad." } },
-        "vp_2": { "type": "prop", "settings": { "icon": "truck", "title": "Envío rápido", "description": "Entrega en 2-5 días hábiles a todo Colombia." } },
-        "vp_3": { "type": "prop", "settings": { "icon": "headphones", "title": "Soporte experto", "description": "Atención personalizada por WhatsApp y correo." } },
-        "vp_4": { "type": "prop", "settings": { "icon": "leaf", "title": "Ingredientes naturales", "description": "Fórmulas con ingredientes de origen natural." } }
+        "vp_1": { "type": "prop", "settings": { "icon": "shield-check", "title": "Compra segura", "description": "Pagos protegidos y checkout confiable." } },
+        "vp_2": { "type": "prop", "settings": { "icon": "award", "title": "Productos seleccionados", "description": "Catálogo curado con estándares de calidad." } },
+        "vp_3": { "type": "prop", "settings": { "icon": "truck", "title": "Entregas confiables", "description": "Entrega en 2-5 días hábiles a todo Colombia." } },
+        "vp_4": { "type": "prop", "settings": { "icon": "headphones", "title": "Atención al cliente", "description": "Soporte personalizado por WhatsApp y correo." } }
       },
       "block_order": ["vp_1", "vp_2", "vp_3", "vp_4"]
     },
-    "testimonials": {
-      "type": "testimonials",
+    "final_cta": {
+      "type": "final-cta",
       "settings": {
-        "heading": "Lo que dicen nuestros clientes",
-        "subheading": "Experiencias reales de personas que confían en VitalPlus",
-        "disclaimer": "Resultados individuales pueden variar. Estos testimonios no constituyen consejo médico."
-      },
-      "blocks": {
-        "t_1": { "type": "testimonial", "settings": { "author": "Carlos M.", "text": "He notado un cambio positivo en mi bienestar general. La calidad de VitalPlus es excepcional.", "rating": 5 } },
-        "t_2": { "type": "testimonial", "settings": { "author": "Andrea L.", "text": "El Multivitamínico Diario me ha dado más energía. Lo recomiendo totalmente.", "rating": 5 } },
-        "t_3": { "type": "testimonial", "settings": { "author": "Jorge P.", "text": "El Magnesio + Zinc mejoró mi calidad de sueño notablemente. Excelente producto.", "rating": 5 } }
-      },
-      "block_order": ["t_1", "t_2", "t_3"]
+        "heading": "Explora una tienda creada para descubrir algo nuevo",
+        "subheading": "Tecnología, bienestar, tendencias y productos seleccionados te esperan.",
+        "button_url": "/collections/all",
+        "button_text": "Comenzar a comprar"
+      }
     },
     "newsletter": {
       "type": "newsletter",
@@ -70,5 +77,5 @@
       }
     }
   },
-  "order": ["hero_banner", "featured_categories", "best_sellers", "value_props", "testimonials", "newsletter"]
+  "order": ["hero_banner", "featured_categories", "vitaplus_feature", "best_sellers", "value_props", "final_cta", "newsletter"]
 }

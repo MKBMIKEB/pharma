@@ -6,7 +6,7 @@
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
       {%- for block in section.blocks -%}
-        <div class="value-prop" {{ block.shopify_attributes }}>
+        <div class="value-prop" data-reveal style="transition-delay: {{ forloop.index0 | times: 0.06 }}s" {{ block.shopify_attributes }}>
           <div class="value-prop__icon">
             {% render 'icon', icon: block.settings.icon %}
           </div>

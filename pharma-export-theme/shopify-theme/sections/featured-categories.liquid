@@ -1,16 +1,26 @@
-<section class="section-padding">
-  <div class="container-narrow">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="section-heading">{{ section.settings.heading }}</h2>
-    {%- endif -%}
-    {%- if section.settings.subheading != blank -%}
-      <p class="section-subheading">{{ section.settings.subheading }}</p>
-    {%- endif -%}
+<section class="section-padding featured-categories">
+  {%- if template.name == 'index' -%}
+    <canvas
+      id="canvas3d"
+      class="featured-categories__spline"
+      data-spline-scene="https://prod.spline.design/d5sx0Iu8msinlll0/scene.splinecode"
+      aria-hidden="true"
+    ></canvas>
+  {%- endif -%}
+  <div class="container-narrow featured-categories__inner">
+    <div class="featured-categories__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="section-subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 featured-categories__grid">
       {%- for block in section.blocks -%}
         {%- assign col = block.settings.collection -%}
-        <a href="{{ col.url }}" class="category-card" {{ block.shopify_attributes }}>
+        <a href="{{ col.url }}" class="category-card" data-reveal style="transition-delay: {{ forloop.index0 | times: 0.06 }}s" {{ block.shopify_attributes }}>
           <div class="category-card__icon">
             {% render 'icon', icon: block.settings.icon %}
           </div>
@@ -66,7 +76,10 @@
             { "value": "heart", "label": "Corazón (Inmunidad)" },
             { "value": "leaf", "label": "Hoja (Natural)" },
             { "value": "shield-check", "label": "Escudo check" },
-            { "value": "award", "label": "Medalla" }
+            { "value": "award", "label": "Medalla (Tendencias)" },
+            { "value": "star", "label": "Estrella (Belleza)" },
+            { "value": "package", "label": "Paquete (Hogar)" },
+            { "value": "shopping-bag", "label": "Bolsa (Accesorios)" }
           ],
           "default": "pill"
         }

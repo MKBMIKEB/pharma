@@ -3,7 +3,7 @@
   Usage: {% render 'product-card', product: product %}
 {%- endcomment -%}
 
-<div class="product-card">
+<div class="product-card" data-reveal style="transition-delay: {{ index | default: 0 | times: 0.06 }}s">
   {%- comment -%} Image area {%- endcomment -%}
   <a href="{{ product.url }}" class="product-card__image">
     {%- if product.featured_image -%}

@@ -1,0 +1,53 @@
+<section class="final-cta section-padding">
+  <div class="container-narrow final-cta__inner" data-reveal>
+    {%- if section.settings.heading != blank -%}
+      <h2 class="final-cta__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="final-cta__subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_text != blank -%}
+      <a href="{{ section.settings.button_url | default: '/collections/all' }}" class="btn btn-accent btn-lg">
+        {{ section.settings.button_text }}
+        {% render 'icon', icon: 'arrow-right', size: 18 %}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Llamado a la acción final",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Explora una tienda creada para descubrir algo nuevo"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo",
+      "default": "Tecnología, bienestar, tendencias y productos seleccionados te esperan."
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "URL del botón",
+      "info": "Por defecto va a /collections/all"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texto del botón",
+      "default": "Comenzar a comprar"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Llamado a la acción final"
+    }
+  ]
+}
+{% endschema %}
