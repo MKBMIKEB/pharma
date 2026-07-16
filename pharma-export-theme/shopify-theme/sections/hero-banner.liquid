@@ -194,6 +194,7 @@
   if (slides.length <= 1) return;
 
   var heroContent = heroSection.querySelector('.hero__content');
+  var heroOverlay = heroSection.querySelector('.hero__overlay');
   var current = 0;
   var interval = {{ section.settings.slide_interval | default: 5 }} * 1000;
   var timer;
@@ -205,6 +206,7 @@
     slides[current].classList.add('is-active');
     if (dots[current]) dots[current].classList.add('is-active');
     if (heroContent) heroContent.classList.toggle('is-hidden', current !== 0);
+    if (heroOverlay) heroOverlay.classList.toggle('is-hidden', current !== 0);
   }
 
   function next() {
